@@ -1,0 +1,34 @@
+06:40:16 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+06:41:28 PM: DEBUG [user_dao.py:16] Usuario creado: ('andres', '123', 'andres222') 
+06:42:38 PM: DEBUG [user_dao.py:16] Usuario creado: ('andres', '1234', 'andres1231') 
+06:44:00 PM: DEBUG [user_dao.py:16] Usuario creado: ('andres', '1234', 'andres1231') 
+06:44:28 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+06:44:28 PM: DEBUG [user_dao.py:16] Usuario creado: ('andres', '1233', 'andres1') 
+07:01:55 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+07:02:39 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+07:03:03 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+07:03:51 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+07:05:08 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+07:06:31 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+07:06:31 PM: DEBUG [user_dao.py:45] usuario None
+07:07:19 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+07:07:19 PM: DEBUG [user_dao.py:45] usuario no encontrado
+07:11:03 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+07:11:24 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+07:12:09 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+07:12:24 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+07:13:21 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+07:14:10 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+07:15:40 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+07:17:33 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+07:18:12 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+07:18:32 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+07:18:51 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+07:19:09 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+07:20:25 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+07:20:25 PM: DEBUG [user_dao.py:49] Se encontro el usuario
+07:20:38 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+07:20:38 PM: DEBUG [user_dao.py:49] Se encontro el usuario
+07:21:02 PM: DEBUG [user_dao.py:49] Se encontro el usuario
+09:24:08 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+09:24:08 PM: DEBUG [user_dao.py:48] Se encontro el usuario
