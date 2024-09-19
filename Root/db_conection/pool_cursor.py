@@ -1,4 +1,4 @@
-from conexion import Conexion
+from Root.db_conection.conexion import Conexion
 
 
 class PoolCursor:

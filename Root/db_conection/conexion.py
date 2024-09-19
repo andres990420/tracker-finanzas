@@ -1,5 +1,5 @@
 from psycopg2 import pool
-from base_logger import log
+from Root.base_logger import log
 
 class Conexion:
 
