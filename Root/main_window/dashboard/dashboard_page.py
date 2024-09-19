@@ -1,5 +1,7 @@
 from PySide6.QtWidgets import QWidget, QApplication, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QCheckBox
+from PySide6.QtCharts import QBarSet, QBarCategoryAxis, QBarSeries
 import pyqtgraph as pg
+
 
 class DashboardPage(QWidget):
     def __init__(self):
@@ -32,6 +34,7 @@ class DashboardPage(QWidget):
 
     def createGraphs(self):
         plot_graph = pg.PlotWidget()
+
         plot_graph.plot([1,2,3,4,5,6], [20,21,22,23,24,25])
         self.main_layout.addWidget(plot_graph)
 
