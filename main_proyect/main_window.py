@@ -25,7 +25,6 @@ class MainWindow(QMainWindow):
         self.stackedLayoutComponents()
         self.createSideMenuComponents()
 
-
     def stackedLayoutComponents(self):
         dashboard_view_page = QWidget()
         detail_view_page = QWidget()
@@ -42,14 +41,17 @@ class MainWindow(QMainWindow):
 
         dashboard_button = QPushButton('Dashboard')
         dashboard_button.setFlat(True)
+        dashboard_button.clicked.connect(self.activeDashboardPage)
         self.side_menu_bar_layout.addWidget(dashboard_button)
 
         detail_expensive_button = QPushButton('Detail Expensives')
         detail_expensive_button.setFlat(True)
         self.side_menu_bar_layout.addWidget(detail_expensive_button)
+        detail_expensive_button.clicked.connect(self.activeDetailPage)
 
         settings_button = QPushButton('Settings')
         settings_button.setFlat(True)
+        settings_button.clicked.connect(self.settingsPage)
         self.side_menu_bar_layout.addWidget(settings_button)
 
 
