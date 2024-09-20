@@ -1,6 +1,7 @@
 from Root.db_conection.pool_cursor import PoolCursor
 from Root.base_logger import log
 
+
 class UserDao:
 
     _LOGEAR = "SELECT username, password FROM usuarios WHERE username=%s AND password=%s"
