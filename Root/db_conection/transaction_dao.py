@@ -22,23 +22,31 @@ class TransactionDao:
             WHERE transaction_id= %s
     '''
 
-    _SELECT = '''
+    _SELECT_ONE = '''
         SELECT transaction_type, category_name, amount, transaction_date, description
         FROM transactions
         INNER JOIN categories ON transactions.category_id = categories.category_id
         WHERE transaction_id= %s
         
     '''
+    _SELECT_ALL = '''
+        SELECT transaction_type, category_name, amount, transaction_date, description
+        FROM transactions
+        INNER JOIN categories ON transactions.category_id = categories.category_id
+        WHERE user_id = %s
+    '''
+
+
 
     @classmethod
     def new_transaction(cls, transaction):
         with PoolCursor() as cursor:
             new_transaction = (transaction.user_id,
-                                transaction.transaction_type,
-                                transaction.category_id,
-                                transaction.amount,
-                                transaction.transaction_date,
-                                transaction.text_description)
+                               transaction.transaction_type,
+                               transaction.category_id,
+                               transaction.amount,
+                               transaction.transaction_date,
+                               transaction.text_description)
             cursor.execute(cls._NEW_TRANSACTION, new_transaction)
             log.debug(f'Nueva transaction realizada con exito {new_transaction}')
 
@@ -60,25 +68,33 @@ class TransactionDao:
             log.debug(f'Transaction Actualizad correctamente {update_transaction}')
 
     @classmethod
-    def select_transaction(cls, transaction_id):
+    def select_one_transaction(cls, transaction_id):
         with PoolCursor() as cursor:
-            cursor.execute(cls._SELECT, transaction_id)
+            cursor.execute(cls._SELECT_ONE, transaction_id)
             registro = cursor.fetchone()
             print(registro)
 
+    @classmethod
+    def select_all_transaction(cls, user_id):
+        with PoolCursor() as cursor:
+            cursor.execute(cls._SELECT_ALL, user_id)
+            print(cursor.fetchall())
 
 if __name__ == '__main__':
-
+        # TESTING INSERT
         new_transaction = Root.models.transaction.Transaction(user_id=1, transaction_type='gasto',
                                                               category_id=1,
                                                               amount=500,
                                                               transaction_date=datetime.datetime.now(),
                                                               text_description='Compra de lavaplatos')
 
-        # TransactionDao.new_transaction(new_transaction)
-        new_transaction2 = Root.models.transaction.Transaction(transaction_id='5')
-        # TransactionDao.delete_transaction(new_transaction2)
+        TransactionDao.new_transaction(new_transaction)
 
+        # TESTING DELETE
+        # delete_transaction2 = Root.models.transaction.Transaction(transaction_id='5')
+        # TransactionDao.delete_transaction(delete_transaction2)
+
+        # TESTING UPDATE
         update_transaction = Root.models.transaction.Transaction(transaction_id=4,
                                                                  transaction_type='ingreso',
                                                                  category_id=2,
@@ -86,4 +102,5 @@ if __name__ == '__main__':
                                                                  text_description='Prueba')
         # TransactionDao.update_transaction(update_transaction)
 
-        TransactionDao.select_transaction('4')
+        TransactionDao.select_one_transaction('4')
+        TransactionDao.select_all_transaction('1')

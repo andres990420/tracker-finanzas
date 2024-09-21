@@ -107,3 +107,7 @@
 01:20:47 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
 01:20:51 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
 01:20:56 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+01:31:34 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+01:31:47 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+01:32:54 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+01:32:54 AM: DEBUG [transaction_dao.py:51] Nueva transaction realizada con exito (1, 'gasto', 1, 500, datetime.datetime(2024, 9, 21, 1, 32, 54, 161370), 'Compra de lavaplatos')
