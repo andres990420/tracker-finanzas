@@ -4,11 +4,11 @@ from Root.utils.base_logger import log
 
 class UserDao:
 
-    _LOGEAR = "SELECT username, password FROM usuarios WHERE username=%s AND password=%s"
-    _INSERT = 'INSERT INTO usuarios (username, password, email) VALUES (%s, %s, %s)'
-    _UPDATE_PASSWORD = 'UPDATE usuarios SET password=%s WHERE user_id= %s'
-    _UPDATE_EMAIL = 'UPDATE usuarios SET email=%s WHERE user_id= %s'
-    _DELETE = 'DELETE FROM usuarios WHERE user_id=%s'
+    _LOGEAR = "SELECT username, password_hash FROM users WHERE username=%s AND password_hash=%s"
+    _INSERT = 'INSERT INTO users (username, password_hash, email) VALUES (%s, %s, %s)'
+    _UPDATE_PASSWORD = 'UPDATE users SET password_hash=%s WHERE user_id= %s'
+    _UPDATE_EMAIL = 'UPDATE users SET email=%s WHERE user_id= %s'
+    _DELETE = 'DELETE FROM users WHERE user_id=%s'
 
     @classmethod
     def add_user(cls, user):

@@ -32,3 +32,47 @@
 07:21:02 PM: DEBUG [user_dao.py:49] Se encontro el usuario
 09:24:08 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
 09:24:08 PM: DEBUG [user_dao.py:48] Se encontro el usuario
+11:18:56 PM: DEBUG [base_logger.py:27] Prueba debug user log
+11:19:24 PM: DEBUG [base_logger.py:27] Prueba debug user log
+11:19:24 PM: DEBUG [base_logger.py:29] Prueba transaction log
+11:44:02 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+11:46:55 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+11:49:34 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+11:53:36 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+11:54:24 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+11:57:26 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+12:00:14 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+12:04:00 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+12:04:16 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+12:06:59 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+12:07:15 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+12:07:26 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+12:07:47 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+12:09:35 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+12:10:33 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+12:10:33 AM: DEBUG [transaction_dao.py:26] Nueva transaction realizada con exito (1, 'gasto', 1, 500, datetime.date(2024, 9, 21), 'Compra de lavaplatos')
+12:24:04 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+12:24:04 AM: DEBUG [transaction_dao.py:31] Nueva transaction realizada con exito (1, 'gasto', 1, 500, datetime.datetime(2024, 9, 21, 0, 24, 4, 362111), 'Compra de lavaplatos')
+12:25:51 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+12:26:42 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+12:26:57 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+12:27:02 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+12:27:02 AM: DEBUG [transaction_dao.py:37] Transaction eliminada con exito
+12:36:55 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+12:38:03 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+12:39:20 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+12:39:39 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+12:40:42 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+12:41:21 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+12:41:46 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+12:42:18 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+12:42:32 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+12:43:30 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+12:46:28 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+12:47:26 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+12:47:56 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+12:49:49 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+12:50:08 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+12:50:35 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+12:51:11 AM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+12:51:11 AM: DEBUG [transaction_dao.py:52] Transaction Actualizad correctamente ('ingreso', 2, 1500, 'Prueba', 4)

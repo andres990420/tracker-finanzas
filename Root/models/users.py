@@ -40,6 +40,7 @@ class Users:
 
     def __str__(self):
         return f'''
+        User Id: {self._user_id}
         Username: {self._username}
         Password: {self._password}
         Email: {self._email}

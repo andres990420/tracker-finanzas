@@ -1,6 +1,7 @@
 class Transaction:
 
-    def __init__(self, transaction_id, user_id, transaction_type, category_id, amount, transaction_date):
+    def __init__(self, transaction_id=None, user_id=None, transaction_type=None,
+                 category_id=None, amount=None, transaction_date=None, text_description=None):
 
         self._transaction_id = transaction_id
         self._user_id = user_id
@@ -8,6 +9,7 @@ class Transaction:
         self._category_id = category_id
         self._amount = amount
         self._transaction_date = transaction_date
+        self._text_description = text_description
 
     def __str__(self):
         return f''' Transaction id: {self._transaction_id}
@@ -16,6 +18,7 @@ class Transaction:
                     Category id: {self._category_id}
                     Amount: {self._amount}
                     Transaction date: {self._transaction_date}
+                    Text Description: {self._text_description}
                 '''
     @property
     def transaction_id(self):
@@ -64,3 +67,11 @@ class Transaction:
     @transaction_date.setter
     def transaction_date(self, transaction_date):
         self._transaction_date = transaction_date
+
+    @property
+    def text_description(self):
+        return self._text_description
+
+    @text_description.setter
+    def text_description(self, text_description):
+        self._text_description = text_description

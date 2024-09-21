@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QDialog, QLabel, QLineEdit, QPushButton, QVBoxLayout, QApplication, QMainWindow
-from users import Users
-from authentificador import Authentificador
-from base_logger import log
+from Root.models.users import Users
+from Root.auth.authentificador import Authentificador
+
 
 
 class SignUpPage(QDialog):
@@ -47,9 +47,6 @@ class SignUpPage(QDialog):
                                  email=email_entry.text())
                 # UserDao.add_user(new_user)
                 # self.close()
-
-
-
 
 
         register_button = QPushButton('REGISTER')
