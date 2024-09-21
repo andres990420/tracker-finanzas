@@ -3,7 +3,6 @@ from Root.db_conection.pool_cursor import PoolCursor
 from Root.utils.base_logger import log
 import datetime
 
-datetime.date.today()
 
 class TransactionDao:
     _NEW_TRANSACTION = '''
@@ -18,9 +17,18 @@ class TransactionDao:
     '''
 
     _UPDATE_TRANSACTION = '''
-            UPDATE transactions SET transaction_type= %s, category_id= %s, amount= %s, description= %s WHERE transaction_id= %s
+            UPDATE transactions 
+            SET transaction_type= %s, category_id= %s, amount= %s, description= %s 
+            WHERE transaction_id= %s
     '''
 
+    _SELECT = '''
+        SELECT transaction_type, category_name, amount, transaction_date, description
+        FROM transactions
+        INNER JOIN categories ON transactions.category_id = categories.category_id
+        WHERE transaction_id= %s
+        
+    '''
 
     @classmethod
     def new_transaction(cls, transaction):
@@ -51,6 +59,13 @@ class TransactionDao:
             cursor.execute(cls._UPDATE_TRANSACTION, update_transaction)
             log.debug(f'Transaction Actualizad correctamente {update_transaction}')
 
+    @classmethod
+    def select_transaction(cls, transaction_id):
+        with PoolCursor() as cursor:
+            cursor.execute(cls._SELECT, transaction_id)
+            registro = cursor.fetchone()
+            print(registro)
+
 
 if __name__ == '__main__':
 
@@ -69,4 +84,6 @@ if __name__ == '__main__':
                                                                  category_id=2,
                                                                  amount=1500,
                                                                  text_description='Prueba')
-        TransactionDao.update_transaction(update_transaction)
+        # TransactionDao.update_transaction(update_transaction)
+
+        TransactionDao.select_transaction('4')
