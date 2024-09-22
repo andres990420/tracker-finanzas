@@ -1,8 +1,8 @@
 from PySide6.QtWidgets import QApplication,QWidget, QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QTreeWidget, \
     QTreeWidgetItem
 from Root.db_conection.transaction_dao import TransactionDao
-from add_transaction_dialog import AddTransactionDialog
-from modify_transaction_dialog import ModifyTransactionDialog
+from Root.main_window.detail_page.add_transaction_dialog import AddTransactionDialog
+from Root.main_window.detail_page.modify_transaction_dialog import ModifyTransactionDialog
 
 
 class DetailPage(QWidget):

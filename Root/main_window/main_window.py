@@ -1,14 +1,14 @@
 import sys
 from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, \
     QStackedWidget, QStackedLayout
-
-
+from dashboard.dashboard_page import DashboardPage
+from detail_page.detail_page import DetailPage
 
 class MainWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
-        self.setFixedSize(700,600)
+        self.setFixedSize(900,600)
 
         self.main_widget = QWidget()
         self.setCentralWidget(self.main_widget)
@@ -26,8 +26,8 @@ class MainWindow(QMainWindow):
         self.createSideMenuComponents()
 
     def stackedLayoutComponents(self):
-        dashboard_view_page = QWidget()
-        detail_view_page = QWidget()
+        dashboard_view_page = DashboardPage()
+        detail_view_page = DetailPage()
 
         self.stacked_layout.addWidget(dashboard_view_page)
         self.stacked_layout.addWidget(detail_view_page)
@@ -56,10 +56,10 @@ class MainWindow(QMainWindow):
 
 
     def activeDashboardPage(self):
-        pass
+        self.stacked_layout.setCurrentIndex(0)
 
     def activeDetailPage(self):
-        pass
+        self.stacked_layout.setCurrentIndex(1)
 
     def settingsPage(self):
         pass

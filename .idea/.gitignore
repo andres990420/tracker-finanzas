@@ -5,3 +5,8 @@
 /modules.xml
 /inspectionProfiles/profiles_settings.xml
 /vcs.xml
+/Root/db_conection/_pycache__/transaction_dao.cpython-310.pyc
+/Root/main_window/dashboard/__pycache__/
+/Root/main_window/detail_page/__pycache__/
+/Root/models/__pycache__/categories.cpython-310.pyc
+/Root/utils/__pycache__/base_logger.cpython-310.pyc
