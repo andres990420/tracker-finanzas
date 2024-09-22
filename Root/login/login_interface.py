@@ -1,8 +1,8 @@
 from PySide6.QtWidgets import QVBoxLayout, QLabel, QLineEdit, QPushButton, QApplication, QWidget
 import sys
 from sign_up_page import SignUpPage
-from user_dao import UserDao
-from users import Users
+from Root.models.user_dao import UserDao
+from Root.models.users import Users
 
 
 class LoginInterface(QWidget):

@@ -29,13 +29,19 @@ class TransactionDao:
         WHERE transaction_id= %s
         
     '''
-    _SELECT_ALL = '''
-        SELECT transaction_type, category_name, amount, transaction_date, description
+    _SELECT_EXPENSIVES = '''
+        SELECT transaction_id, transaction_type, category_name, amount, transaction_date, description
         FROM transactions
         INNER JOIN categories ON transactions.category_id = categories.category_id
-        WHERE user_id = %s
+        WHERE user_id = %s AND transaction_type= 'gasto'
     '''
 
+    _SELECT_INCOMES = '''
+            SELECT transaction_type, category_name, amount, transaction_date, description
+            FROM transactions
+            INNER JOIN categories ON transactions.category_id = categories.category_id
+            WHERE user_id = %s AND transaction_type = 'ingreso'
+        '''
 
 
     @classmethod
@@ -75,12 +81,29 @@ class TransactionDao:
             print(registro)
 
     @classmethod
-    def select_all_transaction(cls, user_id):
+    def select_all_expensives(cls, user_id):
         with PoolCursor() as cursor:
-            cursor.execute(cls._SELECT_ALL, user_id)
-            print(cursor.fetchall())
+            cursor.execute(cls._SELECT_EXPENSIVES, user_id)
+            expensive_list = []
+            for item in cursor.fetchall():
+                x = (item[0], item[1], item[2], str(item[3]), str(item[4]), item[5])
+                expensive_list.append(x)
+            return expensive_list
+
+
+    @classmethod
+    def select_all_incomes(cls, user_id):
+        with PoolCursor() as cursor:
+            cursor.execute(cls._SELECT_INCOMES, user_id)
+            incomes_list = []
+            for item in cursor.fetchall():
+                x = (item[0], item[1], str(item[2]), str(item[3]), item[4])
+                incomes_list.append(x)
+            return incomes_list
+
 
 if __name__ == '__main__':
+
         # TESTING INSERT
         new_transaction = Root.models.transaction.Transaction(user_id=1, transaction_type='gasto',
                                                               category_id=1,
@@ -88,7 +111,7 @@ if __name__ == '__main__':
                                                               transaction_date=datetime.datetime.now(),
                                                               text_description='Compra de lavaplatos')
 
-        TransactionDao.new_transaction(new_transaction)
+        # TransactionDao.new_transaction(new_transaction)
 
         # TESTING DELETE
         # delete_transaction2 = Root.models.transaction.Transaction(transaction_id='5')
@@ -103,4 +126,4 @@ if __name__ == '__main__':
         # TransactionDao.update_transaction(update_transaction)
 
         TransactionDao.select_one_transaction('4')
-        TransactionDao.select_all_transaction('1')
+        TransactionDao.select_all_expensives('1')
