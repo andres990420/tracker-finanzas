@@ -29,6 +29,13 @@ class TransactionDao:
         WHERE transaction_id= %s
         
     '''
+    _SELECT_ALL_TRANSACTIONS = '''
+        SELECT transaction_id, transaction_type, category_name, amount, transaction_date, description
+        FROM transactions
+        INNER JOIN categories ON transactions.category_id = categories.category_id
+        WHERE user_id = %s
+    '''
+
     _SELECT_EXPENSIVES = '''
         SELECT transaction_id, transaction_type, category_name, amount, transaction_date, description
         FROM transactions
@@ -37,7 +44,7 @@ class TransactionDao:
     '''
 
     _SELECT_INCOMES = '''
-            SELECT transaction_type, category_name, amount, transaction_date, description
+            SELECT transaction_id,transaction_type, category_name, amount, transaction_date, description
             FROM transactions
             INNER JOIN categories ON transactions.category_id = categories.category_id
             WHERE user_id = %s AND transaction_type = 'ingreso'
@@ -74,6 +81,17 @@ class TransactionDao:
             log.debug(f'Transaction Actualizad correctamente {update_transaction}')
 
     @classmethod
+    def select_all_transactions(cls, user_id):
+        with PoolCursor() as cursor:
+            cursor.execute(cls._SELECT_ALL_TRANSACTIONS, user_id)
+            transactions_list = []
+            for item in cursor.fetchall():
+                x = (item[0], item[1], item[2], str(item[3]), str(item[4]), item[5])
+                transactions_list.append(x)
+            return transactions_list
+
+
+    @classmethod
     def select_one_transaction(cls, transaction_id):
         with PoolCursor() as cursor:
             cursor.execute(cls._SELECT_ONE, transaction_id)
@@ -96,9 +114,11 @@ class TransactionDao:
         with PoolCursor() as cursor:
             cursor.execute(cls._SELECT_INCOMES, user_id)
             incomes_list = []
+
             for item in cursor.fetchall():
-                x = (item[0], item[1], str(item[2]), str(item[3]), item[4])
+                x = (item[0], item[1], item[2], str(item[3]), str(item[4]), item[5])
                 incomes_list.append(x)
+            print(incomes_list)
             return incomes_list
 
 

@@ -10,6 +10,7 @@ class AddTransactionDialog(QDialog):
     def __init__(self, parent):
         super().__init__(parent)
         self.setWindowTitle('Agregacion de transaccion')
+        self.setFixedSize(300, 400)
         self.main_layout = QVBoxLayout()
         self.setLayout(self.main_layout)
 

@@ -209,3 +209,27 @@
 10:25:35 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
 10:26:40 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
 10:28:03 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+10:41:55 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+10:46:30 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+10:47:42 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+10:48:09 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+10:53:50 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+10:56:06 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+10:56:21 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+10:59:35 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+11:07:22 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+11:10:48 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+11:13:16 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+11:13:38 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+11:15:03 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+11:15:50 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+11:19:40 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+11:20:29 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+11:23:43 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+11:24:54 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+11:25:42 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+11:26:13 PM: DEBUG [transaction_dao.py:81] Transaction Actualizad correctamente ('gasto', 2, '600', 'Yummy', '9')
+11:26:23 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+11:29:31 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+11:30:54 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente
+11:31:34 PM: DEBUG [conexion.py:26] Se obtuvo pool correctamente

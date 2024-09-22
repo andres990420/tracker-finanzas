@@ -1,7 +1,9 @@
-from PySide6.QtWidgets import QApplication,QWidget, QPushButton, QLabel, QListView, QVBoxLayout, QHBoxLayout, QTreeWidget, \
+from PySide6.QtWidgets import QApplication,QWidget, QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QTreeWidget, \
     QTreeWidgetItem
 from Root.db_conection.transaction_dao import TransactionDao
 from add_transaction_dialog import AddTransactionDialog
+from modify_transaction_dialog import ModifyTransactionDialog
+
 
 class DetailPage(QWidget):
     def __init__(self):
@@ -34,7 +36,7 @@ class DetailPage(QWidget):
 
         incomes_list = TransactionDao().select_all_incomes('1')
         for i in incomes_list:
-            QTreeWidgetItem(incomes_table, list(i))
+            QTreeWidgetItem(incomes_table, list(i[1:6])).setToolTip(7, f'{i[0]}')
 
         self.resume_tables_layout.addWidget(incomes_table)
 
@@ -68,7 +70,7 @@ class DetailPage(QWidget):
         AddTransactionDialog(self).exec()
 
     def modify_transaction(self):
-        pass
+        ModifyTransactionDialog(self).exec()
 
     def delete_transaction(self):
         pass
