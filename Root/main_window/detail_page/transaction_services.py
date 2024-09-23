@@ -42,3 +42,27 @@ class TransactionServices:
     @classmethod
     def get_all_transactions(cls, user_id):
         return TransactionDao().select_all_transactions(user_id)
+
+    @classmethod
+    def get_max_and_min_expensives(cls, user_id):
+        return TransactionDao().max_and_min_expensives_amounts(user_id)
+
+    @classmethod
+    def get_max_and_min_expensives_categories(cls, user_id):
+        pass
+
+    @classmethod
+    def get_max_and_min_incomes(cls, user_id):
+        return TransactionDao().max_and_min_incomes_amounts(user_id)
+
+    @classmethod
+    def get_max_and_min_incomes_categories(cls, user_id):
+        pass
+
+    @classmethod
+    def get_all_expensive_datetime(cls, user_id):
+        return TransactionDao.select_all_expensives_datetime(user_id)
+
+if __name__ == "__main__":
+
+    print(TransactionServices().get_expensives('1'))

@@ -50,6 +50,21 @@ class TransactionDao:
             WHERE user_id = %s AND transaction_type = 'ingreso'
         '''
 
+    # POSIBLEMENTE REMOVE ESTA
+    _MAX_AND_MIN_EXPENSIVES = '''
+            SELECT MAX(amount), MIN(amount) FROM transactions WHERE user_id= %s AND transaction_type= 'gasto'
+    '''
+    # POSIBLEMENTE REMOVE ESTA
+    _MAX_AND_MIN_INCOMES = '''
+            SELECT MAX(amount), MIN(amount) FROM transactions WHERE user_id= %s AND transaction_type= 'ingreso'
+    '''
+
+    _SELECT_ALL_EXPENSIVES_DATETIME = '''
+            SELECT SUM(amount), EXTRACT (MONTH FROM(transaction_date))
+            FROM transactions
+            WHERE transaction_type = 'gasto' AND user_id= %s
+            GROUP BY transaction_date
+    '''
 
     @classmethod
     def new_transaction(cls, transaction):
@@ -91,7 +106,6 @@ class TransactionDao:
                 transactions_list.append(x)
             return transactions_list
 
-
     @classmethod
     def select_one_transaction(cls, transaction_id):
         with PoolCursor() as cursor:
@@ -109,17 +123,38 @@ class TransactionDao:
                 expensive_list.append(x)
             return expensive_list
 
-
     @classmethod
     def select_all_incomes(cls, user_id):
         with PoolCursor() as cursor:
             cursor.execute(cls._SELECT_INCOMES, user_id)
             incomes_list = []
-
             for item in cursor.fetchall():
                 x = (item[0], item[1], item[2], str(item[3]), str(item[4]), item[5])
                 incomes_list.append(x)
             return incomes_list
+
+    # POSIBLEMENTE REMOVE ESTA
+    @classmethod
+    def max_and_min_expensives_amounts(cls, user_id):
+        with PoolCursor() as cursor:
+            cursor.execute(cls._MAX_AND_MIN_EXPENSIVES, user_id)
+            return cursor.fetchone()
+
+    # POSIBLEMENTE REMOVE ESTA
+    @classmethod
+    def max_and_min_incomes_amounts(cls, user_id):
+        with PoolCursor() as cursor:
+            cursor.execute(cls._MAX_AND_MIN_INCOMES, user_id)
+            return cursor.fetchone()
+
+    @classmethod
+    def select_all_expensives_datetime(cls, user_id):
+        with PoolCursor() as cursor:
+            cursor.execute(cls._SELECT_ALL_EXPENSIVES_DATETIME, user_id)
+            list_expensive_datetime = []
+            for item in cursor.fetchall():
+                list_expensive_datetime.append(list(item))
+            return list_expensive_datetime
 
 
 if __name__ == '__main__':
@@ -145,5 +180,7 @@ if __name__ == '__main__':
                                                                  text_description='Prueba')
         # TransactionDao.update_transaction(update_transaction)
 
-        TransactionDao.select_one_transaction('4')
-        TransactionDao.select_all_expensives('1')
+        # TransactionDao.select_one_transaction('4')
+        # TransactionDao.select_all_expensives('1')
+
+        (TransactionDao.select_all_expensives_datetime('1'))

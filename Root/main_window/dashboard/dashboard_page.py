@@ -1,20 +1,32 @@
-from PySide6.QtWidgets import QWidget, QApplication, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QCheckBox
-from PySide6.QtCharts import QBarSet, QBarCategoryAxis, QBarSeries
-import pyqtgraph as pg
+from PySide6.QtWidgets import QWidget, QApplication, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QCheckBox, \
+    QScrollArea
+
+from Root.main_window.dashboard.expensives_categories_plot import ExpensivesCategoriesPlot
+from Root.main_window.dashboard.expensives_resume_plot import ExpensivesResumePlot
+from Root.main_window.dashboard.incomes_categories_plot import IncomesCategoriesPlot
+from Root.main_window.dashboard.incomes_resume_plot import IncomesResumePlot
+from Root.main_window.dashboard.transactions_resume_plot import TransactionsResumePlot
 
 
 class DashboardPage(QWidget):
     def __init__(self):
         super().__init__()
-
+        self.setFixedSize(700,600)
         self.main_layout = QVBoxLayout()
         self.setLayout(self.main_layout)
+        self.expensives_resume_layout = QHBoxLayout()
+        self.incomes_resume_layout = QHBoxLayout()
+        self.all_transactions_layout = QHBoxLayout()
 
         tittle_label = QLabel('DASHBOARD')
         self.main_layout.addWidget(tittle_label)
 
         self.filter_layout = QHBoxLayout()
         self.main_layout.addLayout(self.filter_layout)
+
+        self.main_layout.addLayout(self.expensives_resume_layout)
+        self.main_layout.addLayout(self.incomes_resume_layout)
+        self.main_layout.addLayout(self.all_transactions_layout)
 
         self.createFilterComponents()
         self.createGraphs()
@@ -33,10 +45,14 @@ class DashboardPage(QWidget):
         self.filter_layout.addWidget(month_checkbox)
 
     def createGraphs(self):
-        plot_graph = pg.PlotWidget()
 
-        plot_graph.plot([1,2,3,4,5,6], [20,21,22,23,24,25])
-        self.main_layout.addWidget(plot_graph)
+        self.expensives_resume_layout.addWidget(ExpensivesResumePlot())
+        self.expensives_resume_layout.addWidget(ExpensivesCategoriesPlot())
+
+        self.incomes_resume_layout.addWidget(IncomesResumePlot())
+        self.incomes_resume_layout.addWidget(IncomesCategoriesPlot())
+
+        self.all_transactions_layout.addWidget(TransactionsResumePlot())
 
 
 if __name__ == "__main__":

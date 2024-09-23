@@ -3,7 +3,6 @@ from PySide6.QtWidgets import QDialog, QLabel, QPushButton, QLineEdit, QTreeWidg
 from Root.main_window.detail_page.transaction_services import TransactionServices
 
 
-
 class DeleteTransactionDialog(QDialog):
     def __init__(self, parent):
         super().__init__(parent)
