@@ -1,8 +1,8 @@
 from PySide6.QtWidgets import QDialog, QLabel, QComboBox, QTreeWidget, QTreeWidgetItem, QPushButton, QLineEdit, QVBoxLayout, \
     QHBoxLayout, QMessageBox
+
 from Root.models.categories import Categories
-from Root.db_conection.transaction_dao import TransactionDao
-from Root.models.transaction import Transaction
+from Root.main_window.detail_page.transaction_services import TransactionServices
 
 
 class ModifyTransactionDialog(QDialog):
@@ -18,7 +18,7 @@ class ModifyTransactionDialog(QDialog):
         transactions_table.setHeaderLabels(['Transaction Type', 'Category Name', 'Amount',
                                           'Transaction Date', 'Description'])
 
-        transactions_list = TransactionDao().select_all_transactions('1')
+        transactions_list = TransactionServices().get_all_transactions('1')
         for i in transactions_list:
             QTreeWidgetItem(transactions_table, list(i[1:6])).setToolTip(7, f'{i[0]}')
 
@@ -62,12 +62,13 @@ class ModifyTransactionDialog(QDialog):
         msg.setStandardButtons(msg.StandardButton.Yes | msg.StandardButton.No)
         msg.exec()
         if 'Yes' in msg.clickedButton().text():
-            update_transaction = Transaction(transaction_id=self.transaction_id,
-                                             transaction_type=self.list_current_item[0].lower(),
-                                             category_id=Categories().CATEGORIES.get(self.new_category_entry.currentText()),
-                                             amount=self.new_amount_entry.text(),
-                                             text_description=self.new_description_entry.text())
-            # TransactionDao().update_transaction(update_transaction)
+            TransactionServices().update_transaction(
+                transaction_id=self.transaction_id,
+                transaction_type=self.list_current_item[0].lower(),
+                category_id=Categories().CATEGORIES.get(self.new_category_entry.currentText()),
+                amount=self.new_amount_entry.text(),
+                text_description=self.new_description_entry.text())
+            self.parent().update_tables()
             self.close()
 
     def cancel_button_action(self):

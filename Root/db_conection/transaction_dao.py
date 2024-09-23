@@ -66,7 +66,8 @@ class TransactionDao:
     @classmethod
     def delete_transaction(cls, transaction):
         with PoolCursor() as cursor:
-            cursor.execute(cls._DELETE,transaction.transaction_id)
+            transaction_id = (transaction.transaction_id,)
+            cursor.execute(cls._DELETE, transaction_id)
             log.debug(f'Transaction eliminada con exito')
 
     @classmethod
@@ -118,7 +119,6 @@ class TransactionDao:
             for item in cursor.fetchall():
                 x = (item[0], item[1], item[2], str(item[3]), str(item[4]), item[5])
                 incomes_list.append(x)
-            print(incomes_list)
             return incomes_list
 
 

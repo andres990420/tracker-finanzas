@@ -1,8 +1,6 @@
 from PySide6.QtWidgets import QDialog, QLabel, QPushButton,QMessageBox,QTextEdit, QLineEdit, QComboBox, QVBoxLayout, QHBoxLayout
-from Root.db_conection.transaction_dao import TransactionDao
-from Root.models.transaction import Transaction
 from Root.models.categories import Categories
-import datetime
+from Root.main_window.detail_page.transaction_services import TransactionServices
 
 
 class AddTransactionDialog(QDialog):
@@ -11,6 +9,8 @@ class AddTransactionDialog(QDialog):
         super().__init__(parent)
         self.setWindowTitle('Agregacion de transaccion')
         self.setFixedSize(300, 400)
+        self.transaction_services = TransactionServices()
+
         self.main_layout = QVBoxLayout()
         self.setLayout(self.main_layout)
 
@@ -60,12 +60,14 @@ class AddTransactionDialog(QDialog):
         msg.setStandardButtons(msg.StandardButton.Yes | msg.StandardButton.No)
         msg.exec()
         if 'Yes' in msg.clickedButton().text():
-            new_transaction = Transaction(user_id=1, transaction_type=self.transaction_type_entry.currentText().lower(),
-                                          category_id=Categories().CATEGORIES.get(self.category_type_entry.currentText()),
-                                          amount=self.amount_entry.text(),
-                                          transaction_date=datetime.datetime.now(),
-                                          text_description=self.transaction_description_entry.text())
-            # TransactionDao().new_transaction(new_transaction)
+            self.transaction_services.add_transaction(
+                user_id=1,
+                transaction_type=self.transaction_type_entry.currentText().lower(),
+                category_id=Categories().CATEGORIES.get(self.category_type_entry.currentText()),
+                amount=self.amount_entry.text(),
+                text_description=self.transaction_description_entry.text())
+
+            self.parent().update_tables()
             self.close()
         else:
             msg.close()
