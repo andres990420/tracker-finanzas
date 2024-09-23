@@ -1,5 +1,5 @@
 import re
-from base_logger import log
+from Root.utils.base_logger import log
 
 
 class Authentificador:
@@ -17,6 +17,7 @@ class Authentificador:
         except Exception as e:
             log.debug('Ocurrio una excepcion', e)
 
+    @classmethod
     def authen_password(self, username, password):
         try:
             is_valid_password = False
@@ -27,6 +28,13 @@ class Authentificador:
             return is_valid_password
         except Exception as e:
             log.debug('Ocurrio una excepcion: ', e)
+
+    @classmethod
+    def valid_data(cls, username, password, email):
+        if cls.authen_password(username, password) and cls.authen_email(email) is True:
+            return True
+        else:
+            return False
 
 
 if __name__ == '__main__':

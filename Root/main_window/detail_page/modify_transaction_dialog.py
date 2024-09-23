@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import QDialog, QLabel, QComboBox, QTreeWidget, QTreeWidgetItem, QPushButton, QLineEdit, QVBoxLayout, \
     QHBoxLayout, QMessageBox
 
+from Root.login.session import Session
 from Root.models.categories import Categories
 from Root.main_window.detail_page.transaction_services import TransactionServices
 
@@ -18,7 +19,7 @@ class ModifyTransactionDialog(QDialog):
         transactions_table.setHeaderLabels(['Transaction Type', 'Category Name', 'Amount',
                                           'Transaction Date', 'Description'])
 
-        transactions_list = TransactionServices().get_all_transactions('1')
+        transactions_list = TransactionServices().get_all_transactions(Session.get_current_user_id())
         for i in transactions_list:
             QTreeWidgetItem(transactions_table, list(i[1:6])).setToolTip(7, f'{i[0]}')
 

@@ -1,16 +1,19 @@
 import sys
 from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, \
     QStackedWidget, QStackedLayout
-from dashboard.dashboard_page import DashboardPage
-from detail_page.detail_page import DetailPage
+
+from Root.login.session import Session
+from Root.main_window.dashboard.dashboard_page import DashboardPage
+from Root.main_window.detail_page.detail_page import DetailPage
+
 
 class MainWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
         self.setFixedSize(900,600)
-
         self.main_widget = QWidget()
+
         self.setCentralWidget(self.main_widget)
 
         self.base_layout = QHBoxLayout()
@@ -36,7 +39,7 @@ class MainWindow(QMainWindow):
         self.profile_photo_label = QLabel('PROFILE PHOTO')
         self.side_menu_bar_layout.addWidget(self.profile_photo_label)
 
-        username_label = QLabel('USERNAME')
+        username_label = QLabel(Session.get_current_user().username)
         self.side_menu_bar_layout.addWidget(username_label)
 
         dashboard_button = QPushButton('Dashboard')
@@ -54,7 +57,6 @@ class MainWindow(QMainWindow):
         settings_button.clicked.connect(self.settingsPage)
         self.side_menu_bar_layout.addWidget(settings_button)
 
-
     def activeDashboardPage(self):
         self.stacked_layout.setCurrentIndex(0)
 
@@ -64,8 +66,9 @@ class MainWindow(QMainWindow):
     def settingsPage(self):
         pass
 
+
 if __name__ == "__main__":
-    app = QApplication()
+    app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
     sys.exit(app.exec())

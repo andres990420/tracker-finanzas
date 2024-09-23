@@ -1,17 +1,16 @@
-from PySide6.QtWidgets import QWidget, QApplication, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QCheckBox, \
-    QScrollArea
+from PySide6.QtWidgets import QWidget, QApplication, QVBoxLayout, QHBoxLayout, QLabel, QCheckBox
 
-from Root.main_window.dashboard.expensives_categories_plot import ExpensivesCategoriesPlot
-from Root.main_window.dashboard.expensives_resume_plot import ExpensivesResumePlot
-from Root.main_window.dashboard.incomes_categories_plot import IncomesCategoriesPlot
-from Root.main_window.dashboard.incomes_resume_plot import IncomesResumePlot
-from Root.main_window.dashboard.transactions_resume_plot import TransactionsResumePlot
+from Root.main_window.dashboard.plots.expensives_categories_plot import ExpensivesCategoriesPlot
+from Root.main_window.dashboard.plots.expensives_resume_plot import ExpensivesResumePlot
+from Root.main_window.dashboard.plots.incomes_categories_plot import IncomesCategoriesPlot
+from Root.main_window.dashboard.plots.incomes_resume_plot import IncomesResumePlot
+from Root.main_window.dashboard.plots.transactions_resume_plot import TransactionsResumePlot
 
 
 class DashboardPage(QWidget):
     def __init__(self):
         super().__init__()
-        self.setFixedSize(700,600)
+        self.setFixedSize(1200,600)
         self.main_layout = QVBoxLayout()
         self.setLayout(self.main_layout)
         self.expensives_resume_layout = QHBoxLayout()

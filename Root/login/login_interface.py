@@ -1,8 +1,10 @@
-from PySide6.QtWidgets import QVBoxLayout, QLabel, QLineEdit, QPushButton, QApplication, QWidget
+from PySide6.QtWidgets import QVBoxLayout, QLabel, QLineEdit, QPushButton, QApplication, QWidget, QMessageBox
 import sys
+from Root.login.session import Session
 from sign_up_page import SignUpPage
-from Root.models.user_dao import UserDao
+from Root.db_conection.user_dao import UserDao
 from Root.models.users import Users
+from Root.main_window.main_window import MainWindow
 
 
 class LoginInterface(QWidget):
@@ -13,6 +15,7 @@ class LoginInterface(QWidget):
         self.setWindowTitle('Login')
         self.main_layout = QVBoxLayout()
         self.setLayout(self.main_layout)
+        self.main_window = None
 
         self.createComponents()
 
@@ -28,6 +31,7 @@ class LoginInterface(QWidget):
 
         password_label = QLabel('Password')
         password_entry = QLineEdit()
+        password_entry.setEchoMode(QLineEdit.EchoMode.Password)
 
         self.main_layout.addWidget(password_label)
         self.main_layout.addWidget(password_entry)
@@ -47,10 +51,16 @@ class LoginInterface(QWidget):
         self.main_layout.addWidget(recover_password)
 
         def signIn():
-            users_values = Users(username=user_entry.text(), password=password_entry.text())
-            if UserDao.login(users_values) is True:
-                print('LOGEAR EN LA APP')
+            username = user_entry.text()
+            password = password_entry.text()
+            user_values = Users(username=username, password=password)
+            user = UserDao.login(user_values)
+            if user:
+                Session.login(user)
                 self.close()
+                self.open_main_window()
+            else:
+                QMessageBox.warning(self, 'Error', 'Credenciales Incorrectas')
 
         sing_in_button.clicked.connect(signIn)
 
@@ -60,9 +70,13 @@ class LoginInterface(QWidget):
     def recoverPassword(self):
         pass
 
+    def open_main_window(self):
+        if not self.main_window:
+            self.main_window = MainWindow()
+        self.main_window.show()
 
 if __name__ == "__main__":
-    app = QApplication()
+    app = QApplication(sys.argv)
     window = LoginInterface()
     window.show()
     sys.exit(app.exec())

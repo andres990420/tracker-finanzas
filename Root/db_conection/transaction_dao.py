@@ -63,7 +63,7 @@ class TransactionDao:
             SELECT SUM(amount), EXTRACT (MONTH FROM(transaction_date))
             FROM transactions
             WHERE transaction_type = 'gasto' AND user_id= %s
-            GROUP BY transaction_date
+            GROUP BY EXTRACT(MONTH FROM (transaction_date))
     '''
 
     @classmethod

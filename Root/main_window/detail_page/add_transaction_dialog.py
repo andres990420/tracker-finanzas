@@ -1,4 +1,6 @@
 from PySide6.QtWidgets import QDialog, QLabel, QPushButton,QMessageBox,QTextEdit, QLineEdit, QComboBox, QVBoxLayout, QHBoxLayout
+
+from Root.login.session import Session
 from Root.models.categories import Categories
 from Root.main_window.detail_page.transaction_services import TransactionServices
 
@@ -61,7 +63,7 @@ class AddTransactionDialog(QDialog):
         msg.exec()
         if 'Yes' in msg.clickedButton().text():
             self.transaction_services.add_transaction(
-                user_id=1,
+                user_id=Session.get_current_user_id(),
                 transaction_type=self.transaction_type_entry.currentText().lower(),
                 category_id=Categories().CATEGORIES.get(self.category_type_entry.currentText()),
                 amount=self.amount_entry.text(),

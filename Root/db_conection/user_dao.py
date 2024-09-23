@@ -1,14 +1,16 @@
 from Root.db_conection.pool_cursor import PoolCursor
 from Root.utils.base_logger import log
+from Root.models.users import Users
 
 
 class UserDao:
 
-    _LOGEAR = "SELECT username, password_hash FROM users WHERE username=%s AND password_hash=%s"
+    _LOGEAR = "SELECT user_id, username, password_hash FROM users WHERE username=%s AND password_hash=%s"
     _INSERT = 'INSERT INTO users (username, password_hash, email) VALUES (%s, %s, %s)'
     _UPDATE_PASSWORD = 'UPDATE users SET password_hash=%s WHERE user_id= %s'
     _UPDATE_EMAIL = 'UPDATE users SET email=%s WHERE user_id= %s'
     _DELETE = 'DELETE FROM users WHERE user_id=%s'
+    _GET_ALL_USERS = 'SELECT * FROM users'
 
     @classmethod
     def add_user(cls, user):
@@ -43,11 +45,19 @@ class UserDao:
         with PoolCursor() as cursor:
             user_values = (user.username, user.password)
             cursor.execute(cls._LOGEAR, user_values)
-            # print(cursor.fetchone())
             registro = cursor.fetchone()
-            if registro[0] == user_values[0] and registro[1] == user_values[1]:
-                log.debug('Se encontro el usuario')
-                return True
+            if registro:
+                user.user_id, user.username, user.password = registro
+                return Users(user_id=user.user_id, username=user.username, password=user.password)
             else:
                 log.debug('No se ha encontrado el usuario')
-                return False
+                return None
+
+    @classmethod
+    def get_all_users(cls):
+        with PoolCursor() as cursor:
+            cursor.execute(cls._GET_ALL_USERS)
+            users_id = []
+            for i in cursor.fetchall():
+                users_id.append(i[0])
+            return users_id

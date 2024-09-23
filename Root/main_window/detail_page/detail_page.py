@@ -1,5 +1,7 @@
 from PySide6.QtWidgets import QApplication,QWidget, QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QTreeWidget, \
     QTreeWidgetItem
+
+from Root.login.session import Session
 from Root.main_window.detail_page.add_transaction_dialog import AddTransactionDialog
 from Root.main_window.detail_page.modify_transaction_dialog import ModifyTransactionDialog
 from Root.main_window.detail_page.delete_transaction_dialog import DeleteTransactionDialog
@@ -21,7 +23,7 @@ class DetailPage(QWidget):
         self.expensives_table.setHeaderLabels(['Transaction Type', 'Category Name', 'Amount',
                                          'Transaction Date','Description'])
 
-        expensive_list = TransactionServices().get_expensives('1')
+        expensive_list = TransactionServices().get_expensives(Session.get_current_user_id())
         for i in expensive_list:
             QTreeWidgetItem(self.expensives_table, list(i[1:6])).setToolTip(7, f'{i[0]}')
 
@@ -64,11 +66,11 @@ class DetailPage(QWidget):
         self.expensives_table.clear()
         self.incomes_table.clear()
 
-        expensive_list = TransactionServices.get_expensives('1')
+        expensive_list = TransactionServices.get_expensives(Session.get_current_user_id())
         for i in expensive_list:
             QTreeWidgetItem(self.expensives_table, list(i[1:6])).setToolTip(7, f'{i[0]}')
 
-        incomes_list = TransactionServices.get_incomes('1')
+        incomes_list = TransactionServices.get_incomes(Session.get_current_user_id())
         for i in incomes_list:
             QTreeWidgetItem(self.incomes_table, list(i[1:6])).setToolTip(7, f'{i[0]}')
 

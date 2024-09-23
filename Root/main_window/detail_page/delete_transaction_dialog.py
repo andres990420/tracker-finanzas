@@ -1,5 +1,7 @@
 from PySide6.QtWidgets import QDialog, QLabel, QPushButton, QLineEdit, QTreeWidget, \
     QTreeWidgetItem, QVBoxLayout, QComboBox, QMessageBox
+
+from Root.login.session import Session
 from Root.main_window.detail_page.transaction_services import TransactionServices
 
 
@@ -32,7 +34,7 @@ class DeleteTransactionDialog(QDialog):
                                             'Transaction Date','Description'])
 
         self.main_layout.addWidget(transactions_table)
-        transactions_list = TransactionServices().get_all_transactions('1')
+        transactions_list = TransactionServices().get_all_transactions(Session.get_current_user_id())
         for i in transactions_list:
             QTreeWidgetItem(transactions_table, list(i[1:6])).setToolTip(7, f'{i[0]}')
 

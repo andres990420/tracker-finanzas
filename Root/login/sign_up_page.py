@@ -1,7 +1,9 @@
-from PySide6.QtWidgets import QDialog, QLabel, QLineEdit, QPushButton, QVBoxLayout, QApplication, QMainWindow
+from PySide6.QtWidgets import QDialog, QLabel, QLineEdit, QPushButton, QVBoxLayout, \
+    QApplication, QMainWindow
+
+from Root.db_conection.user_dao import UserDao
 from Root.models.users import Users
 from Root.auth.authentificador import Authentificador
-
 
 
 class SignUpPage(QDialog):
@@ -34,20 +36,18 @@ class SignUpPage(QDialog):
         self.main_layout.addWidget(email_entry)
 
         def sent_registration():
-            valid_email = Authentificador().authen_email(email_entry.text())
-            valid_password = Authentificador().authen_password(username_entry.text(), password_entry.text())
-            valid_data = 0
-            if valid_email is True:
-                valid_data += 1
-            if valid_password is True:
-                valid_data += 1
-            if valid_data == 2:
-                new_user = Users(username=username_entry.text(),
-                                 password=password_entry.text(),
-                                 email=email_entry.text())
-                # UserDao.add_user(new_user)
-                # self.close()
-
+            username = username_entry.text()
+            password = password_entry.text()
+            email = email_entry.text()
+            valid_data = Authentificador().valid_data(username, password, email)
+            if valid_data is True:
+                new_user = Users(username=username,
+                                 password=password,
+                                 email=email)
+                UserDao.add_user(new_user)
+                self.close()
+            else:
+                print('Datos invalidos')
 
         register_button = QPushButton('REGISTER')
         register_button.clicked.connect(sent_registration)
