@@ -63,6 +63,9 @@ class TransactionServices:
     def get_all_expensive_datetime(cls, user_id):
         return TransactionDao.select_all_expensives_datetime(user_id)
 
+    @classmethod
+    def get_expensives_categories(cls, user_id):
+        return TransactionDao.select_expensives_and_categories(user_id)
 
 if __name__ == "__main__":
 

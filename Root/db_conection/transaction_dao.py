@@ -62,8 +62,21 @@ class TransactionDao:
     _SELECT_ALL_EXPENSIVES_DATETIME = '''
             SELECT SUM(amount), EXTRACT (MONTH FROM(transaction_date))
             FROM transactions
-            WHERE transaction_type = 'gasto' AND user_id= %s
+            WHERE transaction_type = 'gasto' AND user_id= %s AND date_part ('year', transaction_date)= '2024'
             GROUP BY EXTRACT(MONTH FROM (transaction_date))
+    '''
+
+    _SELECT_EXPENSIVES_AND_CATEGORIES = '''
+            SELECT 
+                SUM(amount), EXTRACT (MONTH FROM(transaction_date)) as "Mes", category_name
+            FROM 
+                transactions
+            INNER JOIN 
+                categories ON transactions.category_id= categories.category_id
+            WHERE 
+                transaction_type = 'gasto' AND user_id= %s AND date_part ('year', transaction_date)= '2024'
+                GROUP BY 
+                    EXTRACT (MONTH FROM (transaction_date)), category_name
     '''
 
     @classmethod
@@ -155,6 +168,15 @@ class TransactionDao:
             for item in cursor.fetchall():
                 list_expensive_datetime.append(list(item))
             return list_expensive_datetime
+
+    @classmethod
+    def select_expensives_and_categories(cls, user_id):
+        with PoolCursor() as cursor:
+            cursor.execute(cls._SELECT_EXPENSIVES_AND_CATEGORIES, user_id)
+            list_expensive_categories = []
+            for item in cursor.fetchall():
+                list_expensive_categories.append(list(item))
+            return list_expensive_categories
 
 
 if __name__ == '__main__':

@@ -46,5 +46,5 @@ def creating_new_transactions():
 
 # creating_new_user()
 
-creating_new_transactions()
+# creating_new_transactions()
 
