@@ -5,65 +5,102 @@ import datetime
 
 
 class TransactionDao:
+
     _NEW_TRANSACTION = '''
         INSERT INTO      
-        transactions(user_id, transaction_type, category_id, amount, transaction_date,description)
+            transactions(user_id, transaction_type, category_id, amount, transaction_date,description)
         VALUES
-        ( %s, %s, %s, %s, %s, %s)
+            ( %s, %s, %s, %s, %s, %s)
     '''
 
     _DELETE = '''
-            DELETE FROM transactions WHERE transaction_id = %s
+            DELETE FROM 
+                transactions 
+            WHERE 
+                transaction_id = %s
     '''
 
     _UPDATE_TRANSACTION = '''
-            UPDATE transactions 
-            SET transaction_type= %s, category_id= %s, amount= %s, description= %s 
-            WHERE transaction_id= %s
+            UPDATE 
+                transactions 
+            SET 
+                transaction_type= %s, category_id= %s, amount= %s, description= %s 
+            WHERE 
+                transaction_id= %s
     '''
 
     _SELECT_ONE = '''
-        SELECT transaction_type, category_name, amount, transaction_date, description
-        FROM transactions
-        INNER JOIN categories ON transactions.category_id = categories.category_id
-        WHERE transaction_id= %s
+        SELECT 
+            transaction_type, category_name, amount, transaction_date, description
+        FROM 
+            transactions
+        INNER JOIN 
+            categories ON transactions.category_id = categories.category_id
+        WHERE 
+            transaction_id= %s
         
     '''
     _SELECT_ALL_TRANSACTIONS = '''
-        SELECT transaction_id, transaction_type, category_name, amount, transaction_date, description
-        FROM transactions
-        INNER JOIN categories ON transactions.category_id = categories.category_id
-        WHERE user_id = %s
+        SELECT 
+            transaction_id, transaction_type, category_name, amount, transaction_date, description
+        FROM 
+            transactions
+        INNER JOIN 
+            categories ON transactions.category_id = categories.category_id
+        WHERE 
+            user_id = %s
     '''
 
     _SELECT_EXPENSIVES = '''
-        SELECT transaction_id, transaction_type, category_name, amount, transaction_date, description
-        FROM transactions
-        INNER JOIN categories ON transactions.category_id = categories.category_id
-        WHERE user_id = %s AND transaction_type= 'gasto'
+        SELECT 
+            transaction_id, transaction_type, category_name, amount, transaction_date, description
+        FROM 
+            transactions
+        INNER JOIN 
+            categories ON transactions.category_id = categories.category_id
+        WHERE 
+            user_id = %s AND transaction_type= 'gasto'
     '''
 
     _SELECT_INCOMES = '''
-            SELECT transaction_id,transaction_type, category_name, amount, transaction_date, description
-            FROM transactions
-            INNER JOIN categories ON transactions.category_id = categories.category_id
-            WHERE user_id = %s AND transaction_type = 'ingreso'
+            SELECT 
+                transaction_id,transaction_type, category_name, amount, transaction_date, description
+            FROM 
+                transactions
+            INNER JOIN 
+                categories ON transactions.category_id = categories.category_id
+            WHERE 
+                user_id = %s AND transaction_type = 'ingreso'
         '''
 
     # POSIBLEMENTE REMOVE ESTA
     _MAX_AND_MIN_EXPENSIVES = '''
-            SELECT MAX(amount), MIN(amount) FROM transactions WHERE user_id= %s AND transaction_type= 'gasto'
+            SELECT 
+                MAX(amount), MIN(amount) 
+            FROM 
+                transactions 
+            WHERE 
+                user_id= %s AND transaction_type= 'gasto'
     '''
     # POSIBLEMENTE REMOVE ESTA
     _MAX_AND_MIN_INCOMES = '''
-            SELECT MAX(amount), MIN(amount) FROM transactions WHERE user_id= %s AND transaction_type= 'ingreso'
+            SELECT 
+                MAX(amount), MIN(amount) 
+            FROM 
+                transactions 
+            WHERE 
+                user_id= %s AND transaction_type= 'ingreso'
     '''
 
     _SELECT_ALL_EXPENSIVES_DATETIME = '''
-            SELECT SUM(amount), EXTRACT (MONTH FROM(transaction_date))
-            FROM transactions
-            WHERE transaction_type = 'gasto' AND user_id= %s AND date_part ('year', transaction_date)= '2024'
-            GROUP BY EXTRACT(MONTH FROM (transaction_date))
+            SELECT 
+                SUM(amount), EXTRACT (MONTH FROM(transaction_date))
+            FROM 
+                transactions
+            WHERE 
+                transaction_type = 'gasto' AND user_id= %s AND date_part ('year', transaction_date)= '2024'
+            GROUP BY 
+                EXTRACT(MONTH FROM (transaction_date))
     '''
 
     _SELECT_EXPENSIVES_AND_CATEGORIES = '''

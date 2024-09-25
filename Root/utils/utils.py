@@ -12,6 +12,14 @@ class Utils:
                 months_for_categories.append(cls._MONTHS.get(str(i)))
         return months_for_categories
 
+    @classmethod
+    def get_categories(cls, categories_list):
+        categories_list_final = []
+        for i in categories_list:
+            if i not in categories_list_final:
+                categories_list_final.append(i)
+        return categories_list_final
+
 
 if __name__ == '__main__':
     test = [['6685.00', '5'], ['1433.00', '7'], ['2873.00', '9'],['1587.00', '10'], ['614.00', '11']]

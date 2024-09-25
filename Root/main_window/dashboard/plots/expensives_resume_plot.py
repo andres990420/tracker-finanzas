@@ -11,7 +11,7 @@ from Root.utils.utils import Utils
 class ExpensivesResumePlot(QWidget):
     def __init__(self, year):
         super().__init__()
-        self.setFixedSize(600,600)
+        # self.setFixedSize(600,600)
 
         self.set_gastos = QBarSet('Gastos')
 

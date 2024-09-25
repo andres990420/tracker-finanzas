@@ -12,7 +12,7 @@ class IncomesResumePlot(QWidget):
     def __init__(self):
         super().__init__()
         self.set_ingresos = QBarSet('Ingresos')
-        self.setFixedSize(600, 600)
+        # self.setFixedSize(600, 600)
 
         incomes_list_plot = []
         incomes_list = TransactionServices().get_incomes(Session.get_current_user_id())
@@ -39,7 +39,7 @@ class IncomesResumePlot(QWidget):
         max_and_min_plot = TransactionServices().get_max_and_min_incomes(Session.get_current_user_id())
 
         self.axis_y = QValueAxis()
-        self.axis_y.setRange(max_and_min_plot[1],max_and_min_plot[0])
+        self.axis_y.setRange(0, max_and_min_plot[0] + 100)
         self.chart.addAxis(self.axis_y, Qt.AlignmentFlag.AlignLeft)
         self.series.attachAxis(self.axis_y)
 

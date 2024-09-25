@@ -11,9 +11,8 @@ class MainWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
-        self.setFixedSize(900,600)
+        self.setFixedSize(700,600)
         self.main_widget = QWidget()
-
         self.setCentralWidget(self.main_widget)
 
         self.base_layout = QHBoxLayout()

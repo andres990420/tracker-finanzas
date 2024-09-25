@@ -12,6 +12,7 @@ class Categories:
                     'GASTOS NO PREDECIBLE': 10,
                     'ALIMENTACIÓN': 11}
 
+
 if __name__ == '__main__':
 
    x = Categories().CATEGORIES.keys()
