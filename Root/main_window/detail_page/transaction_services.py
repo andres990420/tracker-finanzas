@@ -60,8 +60,8 @@ class TransactionServices:
         pass
 
     @classmethod
-    def get_all_expensive_datetime(cls, user_id):
-        return TransactionDao.select_all_expensives_datetime(user_id)
+    def get_all_expensive_datetime(cls, user_id, year):
+        return TransactionDao.select_all_expensives_datetime(user_id, year)
 
     @classmethod
     def get_expensives_categories(cls, user_id):

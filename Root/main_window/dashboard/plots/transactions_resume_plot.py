@@ -13,6 +13,7 @@ class TransactionsResumePlot(QWidget):
         super().__init__()
         self.set_ingresos = QBarSet('Ingresos')
         self.set_gastos = QBarSet('Gastos')
+        self.setFixedHeight(400)
 
         incomes_list_plot = []
         incomes_list = TransactionServices().get_incomes(Session.get_current_user_id())

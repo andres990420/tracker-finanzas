@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import \
-    QWidget, QApplication, QVBoxLayout, QHBoxLayout, QLabel, QCheckBox, QScrollArea, QMainWindow
+    QWidget, QApplication, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QScrollArea, QMainWindow, QComboBox
 from PySide6.QtCore import Qt
 from Root.main_window.dashboard.plots.expensives_categories_plot import ExpensivesCategoriesPlot
 from Root.main_window.dashboard.plots.expensives_resume_plot import ExpensivesResumePlot
@@ -11,8 +11,7 @@ from Root.main_window.dashboard.plots.transactions_resume_plot import Transactio
 class DashboardPage(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setFixedSize(1200,600)
-
+        self.resize(600,500)
         # Creacion del scroll area
         self.scroll_area = QScrollArea(self)
 
@@ -43,53 +42,42 @@ class DashboardPage(QMainWindow):
         self.filter_layout = QHBoxLayout()
         self.main_layout.addLayout(self.filter_layout)
 
-        # Creacion del layout de los graficos de gastos
-        self.expensives_resume_layout = QHBoxLayout()
-        self.main_layout.addLayout(self.expensives_resume_layout)
-
-        # Creacion del layout de los graficos de ingresos
-        self.incomes_resume_layout = QHBoxLayout()
-        self.main_layout.addLayout(self.incomes_resume_layout)
-
-        # Creacion de layout con los datos en general
-        self.all_transactions_layout = QHBoxLayout()
-        self.main_layout.addLayout(self.all_transactions_layout)
-
-        # Creacion de los botones de filtros
-        self.createFilterComponents()
-
-        # Creacion de los graficos
-        self.createGraphs()
-
-    def createFilterComponents(self):
         year_label = QLabel('Year')
         self.filter_layout.addWidget(year_label)
 
-        year_checkbox = QCheckBox()
-        self.filter_layout.addWidget(year_checkbox)
+        self.year_combobox = QComboBox()
+        self.year_combobox.addItems(['2024', '2023', '2022'])
+        self.filter_layout.addWidget(self.year_combobox)
 
-        month_label = QLabel('Month')
-        self.filter_layout.addWidget(month_label)
 
-        month_checkbox = QCheckBox()
-        self.filter_layout.addWidget(month_checkbox)
+        # month_label = QLabel('Month')
+        # self.filter_layout.addWidget(month_label)
 
-    def createGraphs(self):
+        filter_button = QPushButton('FILTRAR')
+        self.filter_layout.addWidget(filter_button)
+        filter_button.clicked.connect(self.update_chart)
+        self.filter_layout.setAlignment(Qt.AlignmentFlag.AlignJustify)
 
         # Creacion grafico de todos los gastos en el anyo
-        self.expensives_resume_layout.addWidget(ExpensivesResumePlot('2024'))
+        self.expensive_resume_plot = ExpensivesResumePlot()
+        self.main_layout.addWidget(self.expensive_resume_plot)
 
         # Creacion grafico de todos los gastos con su division por categoria en el anyo
-        self.expensives_resume_layout.addWidget(ExpensivesCategoriesPlot())
+        self.main_layout.addWidget(ExpensivesCategoriesPlot())
 
         # Creacion grafico all los ingresos en el anyo
-        self.incomes_resume_layout.addWidget(IncomesResumePlot())
+        self.main_layout.addWidget(IncomesResumePlot())
 
-         #Creacion grafico all los ingresos con su categoria en el anyo
-        self.incomes_resume_layout.addWidget(IncomesCategoriesPlot())
+        # Creacion grafico all los ingresos con su categoria en el anyo
+        self.main_layout.addWidget(IncomesCategoriesPlot())
 
         # Cracion grafico ingresos vs gastos en el anyo
-        self.all_transactions_layout.addWidget(TransactionsResumePlot())
+        self.main_layout.addWidget(TransactionsResumePlot())
+
+    def update_chart(self):
+        self.expensive_resume_plot.update_chart(self.year_combobox.currentText())
+        # self.expensive_resume_plot.update()
+        # self.expensive_resume_plot.repaint()
 
 
 if __name__ == "__main__":

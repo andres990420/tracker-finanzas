@@ -98,7 +98,7 @@ class TransactionDao:
             FROM 
                 transactions
             WHERE 
-                transaction_type = 'gasto' AND user_id= %s AND date_part ('year', transaction_date)= '2024'
+                transaction_type = 'gasto' AND user_id= %s AND date_part ('year', transaction_date)= %s
             GROUP BY 
                 EXTRACT(MONTH FROM (transaction_date))
     '''
@@ -198,9 +198,9 @@ class TransactionDao:
             return cursor.fetchone()
 
     @classmethod
-    def select_all_expensives_datetime(cls, user_id):
+    def select_all_expensives_datetime(cls, user_id, year):
         with PoolCursor() as cursor:
-            cursor.execute(cls._SELECT_ALL_EXPENSIVES_DATETIME, user_id)
+            cursor.execute(cls._SELECT_ALL_EXPENSIVES_DATETIME, [user_id ,year])
             list_expensive_datetime = []
             for item in cursor.fetchall():
                 list_expensive_datetime.append(list(item))
@@ -242,4 +242,4 @@ if __name__ == '__main__':
         # TransactionDao.select_one_transaction('4')
         # TransactionDao.select_all_expensives('1')
 
-        (TransactionDao.select_all_expensives_datetime('1'))
+        (TransactionDao.select_all_expensives_datetime('1','2024'))

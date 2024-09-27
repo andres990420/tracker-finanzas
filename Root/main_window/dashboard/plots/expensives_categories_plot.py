@@ -2,7 +2,7 @@ from PySide6.QtCharts import QChart, QBarSeries, QBarSet, QBarCategoryAxis, \
     QChartView, QValueAxis
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPainter
-from PySide6.QtWidgets import  QWidget, QVBoxLayout, QApplication
+from PySide6.QtWidgets import  QWidget, QVBoxLayout, QApplication, QSizePolicy
 from Root.main_window.detail_page.transaction_services import TransactionServices
 from Root.login.session import Session
 from Root.utils.utils import Utils
@@ -11,8 +11,8 @@ from Root.utils.utils import Utils
 class ExpensivesCategoriesPlot(QWidget):
     def __init__(self):
         super().__init__()
-        # self.setFixedSize(600,500)
-
+        self.setFixedHeight(400)
+        self.year = '2024'
         self.sets = {
             'GASTOS DEL HOGAR': QBarSet('GASTOS DEL HOGAR'),
             'TRANSPORTE': QBarSet('TRANSPORTE'),
@@ -53,7 +53,9 @@ class ExpensivesCategoriesPlot(QWidget):
                 self.series.append(self.sets[category])
 
         self.chart = QChart()
+        self.chart.setTitle(f'Gastos por Categoria {self.year}')
         self.chart.addSeries(self.series)
+        self.chart.legend().setAlignment(Qt.AlignmentFlag.AlignRight)
         self.chart.setAnimationOptions(QChart.AnimationOption.SeriesAnimations)
 
         months_list = Utils.get_months(months_list)
@@ -67,7 +69,7 @@ class ExpensivesCategoriesPlot(QWidget):
         expensives_list_max = max([max(values) for values in data_dict.values() if any(values)])
 
         self.axis_y = QValueAxis()
-        self.axis_y.setRange(0, expensives_list_max)
+        self.axis_y.setRange(0, expensives_list_max + 500)
         self.chart.addAxis(self.axis_y, Qt.AlignmentFlag.AlignLeft)
         self.series.attachAxis(self.axis_y)
 

@@ -8,7 +8,7 @@ class ExpandedMenuBar(QMainWindow):
         super().__init__()
         self.main_widget = QWidget()
         self.setCentralWidget(self.main_widget)
-
+        self.setFixedWidth(150)
         self.main_layout = QVBoxLayout()
         self.main_widget.setLayout(self.main_layout)
         self.setStyleSheet('background: "Green"')
@@ -31,7 +31,7 @@ class ExpandedMenuBar(QMainWindow):
         detail_page_icon_expanded.setFlat(True)
         self.main_layout.addWidget(detail_page_icon_expanded)
 
-        spacer = QSpacerItem(20, 400)
+        spacer = QSpacerItem(10, 370)
         self.main_layout.addItem(spacer)
 
         # Settings button
@@ -39,4 +39,5 @@ class ExpandedMenuBar(QMainWindow):
         settings_icon_expanded.setFlat(True)
         self.main_layout.addWidget(settings_icon_expanded)
 
+        self.main_layout.setSpacing(30)
         self.show()

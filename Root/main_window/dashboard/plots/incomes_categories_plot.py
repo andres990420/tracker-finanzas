@@ -12,6 +12,7 @@ class IncomesCategoriesPlot(QWidget):
     def __init__(self):
         super().__init__()
         self.set_ingresos = QBarSet('Ingresos')
+        self.setFixedHeight(400)
 
         incomes_list_plot = []
         incomes_list = TransactionServices().get_incomes(Session.get_current_user_id())
