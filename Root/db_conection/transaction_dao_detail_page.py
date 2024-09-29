@@ -40,7 +40,7 @@ class TransactionDao:
             transaction_id= %s
         
     '''
-    _SELECT_ALL_TRANSACTIONS = '''
+    _SELECT_ALL_TRANSACTIONS_DATETIME_DETAILPAGE = '''
         SELECT 
             transaction_id, transaction_type, category_name, amount, transaction_date, description
         FROM 
@@ -48,60 +48,73 @@ class TransactionDao:
         INNER JOIN 
             categories ON transactions.category_id = categories.category_id
         WHERE 
-            user_id = %s
+            user_id = %s AND 
+            date_part ('year', transaction_date)= %s
+        ORDER BY
+                transaction_date DESC
     '''
 
-    _SELECT_EXPENSIVES = '''
+    _SELECT_ALL_INCOMES_DATETIME_DETAILPAGE = '''
         SELECT 
-            transaction_id, transaction_type, category_name, amount, transaction_date, description
+            transaction_id,transaction_type, category_name, amount, transaction_date, description
         FROM 
             transactions
         INNER JOIN 
             categories ON transactions.category_id = categories.category_id
         WHERE 
-            user_id = %s AND transaction_type= 'gasto'
-    '''
+            user_id = %s AND 
+            transaction_type = 'ingreso'
+            AND date_part ('year', transaction_date)= %s
+        ORDER BY
+            transaction_date DESC
+                '''
 
-    _SELECT_INCOMES = '''
-            SELECT 
-                transaction_id,transaction_type, category_name, amount, transaction_date, description
-            FROM 
-                transactions
-            INNER JOIN 
-                categories ON transactions.category_id = categories.category_id
-            WHERE 
-                user_id = %s AND transaction_type = 'ingreso'
+    _SELECT_ALL_EXPENSIVES_DATETIME_DETAILPAGE = '''
+        SELECT 
+            transaction_id,transaction_type, category_name, amount, transaction_date, description
+        FROM 
+            transactions
+        INNER JOIN 
+            categories ON transactions.category_id = categories.category_id
+        WHERE 
+            transaction_type = 'gasto' 
+            AND user_id= %s 
+            AND date_part('year', transaction_date)= %s
+        ORDER BY
+            transaction_date DESC
+    
+    '''
+    _SELECT_EXPENSIVES_AND_CATEGORIES_DETAILPAGE = '''
+        SELECT 
+            transaction_id,transaction_type, category_name, amount, transaction_date, description
+        FROM 
+            transactions
+        INNER JOIN 
+            categories ON transactions.category_id= categories.category_id
+        WHERE 
+            transaction_type = 'gasto' 
+            AND user_id= %s 
+            AND date_part ('year', transaction_date)= %s
+            AND category_name = %s
+        ORDER BY
+            transaction_date DESC
+        '''
+    _SELECT_INCOMES_AND_CATEGORIES_DETAILPAGE = '''
+        SELECT 
+            transaction_id,transaction_type, category_name, amount, transaction_date, description
+        FROM 
+            transactions
+        INNER JOIN 
+            categories ON transactions.category_id= categories.category_id
+        WHERE 
+            transaction_type = 'ingreso' 
+            AND user_id= %s 
+            AND date_part ('year', transaction_date)= %s
+            AND category_name = %s
+        ORDER BY
+            transaction_date DESC
         '''
 
-    # POSIBLEMENTE REMOVE ESTA
-    _MAX_AND_MIN_EXPENSIVES = '''
-            SELECT 
-                MAX(amount), MIN(amount) 
-            FROM 
-                transactions 
-            WHERE 
-                user_id= %s AND transaction_type= 'gasto'
-    '''
-    # POSIBLEMENTE REMOVE ESTA
-    _MAX_AND_MIN_INCOMES = '''
-            SELECT 
-                MAX(amount), MIN(amount) 
-            FROM 
-                transactions 
-            WHERE 
-                user_id= %s AND transaction_type= 'ingreso'
-    '''
-
-    _SELECT_ALL_EXPENSIVES_DATETIME = '''
-            SELECT 
-                SUM(amount), EXTRACT (MONTH FROM(transaction_date))
-            FROM 
-                transactions
-            WHERE 
-                transaction_type = 'gasto' AND user_id= %s AND date_part ('year', transaction_date)= %s
-            GROUP BY 
-                EXTRACT(MONTH FROM (transaction_date))
-    '''
 
     _SELECT_EXPENSIVES_AND_CATEGORIES = '''
             SELECT 
@@ -111,9 +124,26 @@ class TransactionDao:
             INNER JOIN 
                 categories ON transactions.category_id= categories.category_id
             WHERE 
-                transaction_type = 'gasto' AND user_id= %s AND date_part ('year', transaction_date)= '2024'
-                GROUP BY 
-                    EXTRACT (MONTH FROM (transaction_date)), category_name
+                transaction_type = 'gasto' 
+                AND user_id= %s 
+                AND date_part ('year', transaction_date)= '2024'
+            GROUP BY 
+                EXTRACT (MONTH FROM (transaction_date)), category_name
+    '''
+
+    _SELECT_BY_TRANSACTION_TYPE = '''
+            SELECT 
+                transaction_id,transaction_type, category_name, amount, transaction_date, description
+            FROM 
+                transactions
+            INNER JOIN 
+                categories ON transactions.category_id = categories.category_id
+            WHERE 
+                user_id = %s AND 
+                transaction_type = %s
+                AND date_part ('year', transaction_date)= %s
+            ORDER BY
+                transaction_date DESC
     '''
 
     @classmethod
@@ -147,13 +177,11 @@ class TransactionDao:
             log.debug(f'Transaction Actualizad correctamente {update_transaction}')
 
     @classmethod
-    def select_all_transactions(cls, user_id):
+    def select_all_transactions_datetime(cls, user_id, year):
         with PoolCursor() as cursor:
-            cursor.execute(cls._SELECT_ALL_TRANSACTIONS, user_id)
-            transactions_list = []
-            for item in cursor.fetchall():
-                x = (item[0], item[1], item[2], str(item[3]), str(item[4]), item[5])
-                transactions_list.append(x)
+            cursor.execute(cls._SELECT_ALL_TRANSACTIONS_DATETIME_DETAILPAGE, [user_id, year])
+            transactions_list = \
+                [(item[0], item[1], item[2], str(item[3]), str(item[4]), item[5]) for item in cursor.fetchall()]
             return transactions_list
 
     @classmethod
@@ -164,56 +192,51 @@ class TransactionDao:
             print(registro)
 
     @classmethod
-    def select_all_expensives(cls, user_id):
+    def select_all_incomes_datetime_detailpage(cls, user_id, year):
         with PoolCursor() as cursor:
-            cursor.execute(cls._SELECT_EXPENSIVES, user_id)
-            expensive_list = []
-            for item in cursor.fetchall():
-                x = (item[0], item[1], item[2], str(item[3]), str(item[4]), item[5])
-                expensive_list.append(x)
-            return expensive_list
+            cursor.execute(cls._SELECT_ALL_INCOMES_DATETIME_DETAILPAGE, [user_id, year])
+            list_incomes_datetime = \
+                [(item[0], item[1], item[2], str(item[3]), str(item[4]), item[5]) for item in cursor.fetchall()]
+            return list_incomes_datetime
 
     @classmethod
-    def select_all_incomes(cls, user_id):
+    def select_all_expensives_datetime_detailpage(cls, user_id, year):
         with PoolCursor() as cursor:
-            cursor.execute(cls._SELECT_INCOMES, user_id)
-            incomes_list = []
-            for item in cursor.fetchall():
-                x = (item[0], item[1], item[2], str(item[3]), str(item[4]), item[5])
-                incomes_list.append(x)
-            return incomes_list
-
-    # POSIBLEMENTE REMOVE ESTA
-    @classmethod
-    def max_and_min_expensives_amounts(cls, user_id):
-        with PoolCursor() as cursor:
-            cursor.execute(cls._MAX_AND_MIN_EXPENSIVES, user_id)
-            return cursor.fetchone()
-
-    # POSIBLEMENTE REMOVE ESTA
-    @classmethod
-    def max_and_min_incomes_amounts(cls, user_id):
-        with PoolCursor() as cursor:
-            cursor.execute(cls._MAX_AND_MIN_INCOMES, user_id)
-            return cursor.fetchone()
-
-    @classmethod
-    def select_all_expensives_datetime(cls, user_id, year):
-        with PoolCursor() as cursor:
-            cursor.execute(cls._SELECT_ALL_EXPENSIVES_DATETIME, [user_id ,year])
-            list_expensive_datetime = []
-            for item in cursor.fetchall():
-                list_expensive_datetime.append(list(item))
+            cursor.execute(cls._SELECT_ALL_EXPENSIVES_DATETIME_DETAILPAGE, [user_id, year])
+            list_expensive_datetime = \
+                [(item[0], item[1], item[2], str(item[3]), str(item[4]), item[5]) for item in cursor.fetchall()]
             return list_expensive_datetime
+
+    @classmethod
+    def select_expensives_and_categories_detailpages(cls, user_id, year, category):
+        with PoolCursor() as cursor:
+            cursor.execute(cls._SELECT_EXPENSIVES_AND_CATEGORIES_DETAILPAGE, [user_id, year, category])
+            list_expensive_categories = \
+                [(item[0], item[1], item[2], str(item[3]), str(item[4]), item[5]) for item in cursor.fetchall()]
+            return list_expensive_categories
+
+    @classmethod
+    def select_incomes_and_categories_detailpages(cls, user_id, year, category):
+        with PoolCursor() as cursor:
+            cursor.execute(cls._SELECT_INCOMES_AND_CATEGORIES_DETAILPAGE, [user_id, year, category])
+            list_incomes_categories = \
+                [(item[0], item[1], item[2], str(item[3]), str(item[4]), item[5]) for item in cursor.fetchall()]
+            return list_incomes_categories
 
     @classmethod
     def select_expensives_and_categories(cls, user_id):
         with PoolCursor() as cursor:
             cursor.execute(cls._SELECT_EXPENSIVES_AND_CATEGORIES, user_id)
-            list_expensive_categories = []
-            for item in cursor.fetchall():
-                list_expensive_categories.append(list(item))
+            list_expensive_categories = [item for item in cursor.fetchall()]
             return list_expensive_categories
+
+    @classmethod
+    def select_by_transaction_type(cls, user_id, transaction_type, year):
+        with PoolCursor() as cursor:
+            cursor.execute(cls._SELECT_BY_TRANSACTION_TYPE, [user_id, transaction_type, year])
+            list_transactions = \
+                [(item[0], item[1], item[2], str(item[3]), str(item[4]), item[5]) for item in cursor.fetchall()]
+            return list_transactions
 
 
 if __name__ == '__main__':
@@ -242,4 +265,4 @@ if __name__ == '__main__':
         # TransactionDao.select_one_transaction('4')
         # TransactionDao.select_all_expensives('1')
 
-        (TransactionDao.select_all_expensives_datetime('1','2024'))
+        (TransactionDao.select_by_transaction_type('1', 'ingreso'))

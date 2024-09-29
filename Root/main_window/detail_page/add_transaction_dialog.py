@@ -22,13 +22,14 @@ class AddTransactionDialog(QDialog):
         self.transaction_type_entry = QComboBox()
         self.transaction_type_entry.addItems(['Ingreso', 'Gasto'])
         self.transaction_type_entry.setCurrentIndex(-1)
+        self.transaction_type_entry.currentTextChanged.connect(
+            lambda: self.changes_categories(self.transaction_type_entry.currentText()))
         self.main_layout.addWidget(self.transaction_type_entry)
 
         category_type = QLabel('Categoria')
         self.main_layout.addWidget(category_type)
 
         self.category_type_entry = QComboBox()
-        self.category_type_entry.addItems(Categories().CATEGORIES.keys())
         self.category_type_entry.setCurrentIndex(-1)
 
         self.main_layout.addWidget(self.category_type_entry)
@@ -76,3 +77,15 @@ class AddTransactionDialog(QDialog):
 
     def cancel_button_action(self):
         self.close()
+
+    def changes_categories(self, current_type):
+        if current_type == 'Ingreso':
+            self.category_type_entry.clear()
+            self.category_type_entry.setCurrentIndex(-1)
+            self.category_type_entry.addItems(['Sueldo', 'Cheque', 'Transacciones'])
+            self.category_type_entry.repaint()
+        elif current_type == 'Gasto':
+            self.category_type_entry.clear()
+            self.category_type_entry.setCurrentIndex(-1)
+            self.category_type_entry.addItems(Categories.CATEGORIES.keys())
+            self.category_type_entry.repaint()

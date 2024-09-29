@@ -9,13 +9,13 @@ from Root.main_window.detail_page.transaction_services import TransactionService
 
 
 class IncomesResumePlot(QWidget):
-    def __init__(self):
+    def __init__(self, year):
         super().__init__()
         self.set_ingresos = QBarSet('Ingresos')
         self.setFixedHeight(400)
 
         incomes_list_plot = []
-        incomes_list = TransactionServices().get_incomes(Session.get_current_user_id())
+        incomes_list = TransactionServices().get_incomes(Session.get_current_user_id(), year)
         for i in incomes_list:
             incomes_list_plot.append(float(i[3]))
 
@@ -36,10 +36,8 @@ class IncomesResumePlot(QWidget):
         self.chart.addAxis(self.axis_x, Qt.AlignmentFlag.AlignBottom)
         self.series.attachAxis(self.axis_x)
 
-        max_and_min_plot = TransactionServices().get_max_and_min_incomes(Session.get_current_user_id())
-
         self.axis_y = QValueAxis()
-        self.axis_y.setRange(0, max_and_min_plot[0] + 100)
+        self.axis_y.setRange(0, max(incomes_list_plot) + 100)
         self.chart.addAxis(self.axis_y, Qt.AlignmentFlag.AlignLeft)
         self.series.attachAxis(self.axis_y)
 
@@ -53,6 +51,6 @@ class IncomesResumePlot(QWidget):
 if __name__ == '__main__':
 
     app = QApplication()
-    w = IncomesResumePlot()
+    w = IncomesResumePlot('2024')
     w.show()
     app.exec()

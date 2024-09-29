@@ -23,22 +23,17 @@ class MainWindow(QMainWindow):
         self.main_widget.setLayout(self.base_layout)
 
         widget1 = QStackedWidget()
-        # widget1.setSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding)
         widget1.addWidget(ExpandedMenuBar())
         widget1.addWidget(ContractMenuBar())
         widget1.setFixedWidth(150)
         self.base_layout.addWidget(widget1)
 
-        layout2 = QVBoxLayout()
-        self.base_layout.addLayout(layout2)
+        self.layout2 = QStackedLayout()
+        self.base_layout.addLayout(self.layout2)
 
-        widget2 = QWidget()
-        layout2.addWidget(widget2)
-
-        layout2.addWidget(DashboardPage())
-
-
-
+        self.layout2.addWidget(DashboardPage())
+        self.layout2.addWidget(DetailPage())
+        self.layout2.currentIndex()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

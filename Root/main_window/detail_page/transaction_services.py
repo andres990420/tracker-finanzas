@@ -1,5 +1,6 @@
-from Root.db_conection.transaction_dao import TransactionDao
+from Root.db_conection.transaction_dao_detail_page import TransactionDao
 from Root.models.transaction import Transaction
+from Root.db_conection.transaction_dao_dashboard import TransactionDaoDashboard
 import datetime
 
 
@@ -33,39 +34,40 @@ class TransactionServices:
 
     @classmethod
     def get_expensives(cls, user_id):
-        return TransactionDao().select_all_expensives(user_id)
+        return TransactionDaoDashboard().select_all_expensives_dashboard(user_id)
 
     @classmethod
-    def get_incomes(cls, user_id):
-        return TransactionDao().select_all_incomes(user_id)
+    def get_incomes(cls, user_id, year):
+        return TransactionDaoDashboard().select_all_incomes_dashboard(user_id, year)
 
     @classmethod
-    def get_all_transactions(cls, user_id):
-        return TransactionDao().select_all_transactions(user_id)
+    def get_all_transactions(cls, user_id, year):
+        return TransactionDao().select_all_transactions_datetime(user_id, year)
 
     @classmethod
-    def get_max_and_min_expensives(cls, user_id):
-        return TransactionDao().max_and_min_expensives_amounts(user_id)
+    def selected_by_transaction_type(cls, user_id, transaction_type, year):
+        return TransactionDao().select_by_transaction_type(user_id, transaction_type, year)
 
     @classmethod
-    def get_max_and_min_expensives_categories(cls, user_id):
-        pass
+    def get_all_expensive_datetime_detailpages(cls, user_id, year):
+        return TransactionDao.select_all_expensives_datetime_detailpage(user_id, year)
 
     @classmethod
-    def get_max_and_min_incomes(cls, user_id):
-        return TransactionDao().max_and_min_incomes_amounts(user_id)
+    def get_all_incomes_datetime_detailpage(cls, user_id, year):
+        return TransactionDao.select_all_incomes_datetime_detailpage(user_id, year)
 
     @classmethod
-    def get_max_and_min_incomes_categories(cls, user_id):
-        pass
+    def get_expensives_categories_detailpages(cls, user_id, year, category):
+        return TransactionDao.select_expensives_and_categories_detailpages(user_id, year, category)
 
     @classmethod
-    def get_all_expensive_datetime(cls, user_id, year):
-        return TransactionDao.select_all_expensives_datetime(user_id, year)
+    def get_incomes_categories_detailpage(cls, user_id, year, category):
+        return TransactionDao.select_incomes_and_categories_detailpages(user_id, year, category)
 
     @classmethod
     def get_expensives_categories(cls, user_id):
         return TransactionDao.select_expensives_and_categories(user_id)
+
 
 if __name__ == "__main__":
 

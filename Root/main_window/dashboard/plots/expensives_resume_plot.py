@@ -18,8 +18,8 @@ class ExpensivesResumePlot(QWidget):
         self.set_gastos = QBarSet('Gastos')
         self.set_gastos.setLabelColor('BLACK')
 
-        self.expensives_list = TransactionServices().get_all_expensive_datetime(Session.get_current_user_id(),
-                                                                                self.year)
+        self.expensives_list = TransactionServices().get_all_expensive_datetime_detailpages(Session.get_current_user_id(),
+                                                                                            self.year)
         self.expensives_list_plot = []
         self.month_list = []
         for i in self.expensives_list:
@@ -74,8 +74,8 @@ class ExpensivesResumePlot(QWidget):
         self.set_gastos = QBarSet('Gastos')
         self.set_gastos.setLabelColor('BLACK')
 
-        self.expensives_list = TransactionServices().get_all_expensive_datetime(Session.get_current_user_id(),
-                                                                                self.year)
+        self.expensives_list = TransactionServices().get_all_expensive_datetime_detailpages(Session.get_current_user_id(),
+                                                                                            self.year)
         for i in self.expensives_list:
             self.expensives_list_plot.append(int(i[0]))
             self.month_list.append(int(i[1]))
