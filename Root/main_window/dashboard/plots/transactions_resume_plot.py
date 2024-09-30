@@ -18,6 +18,7 @@ class TransactionsResumePlot(QWidget):
         self.set_ingresos = QBarSet('Ingresos')
         self.set_ingresos.setLabelColor('BLUE')
         self.set_gastos = QBarSet('Gastos')
+        self.set_gastos.setColor('RED')
         self.set_gastos.setLabelColor('RED')
 
         incomes_month_list = []
@@ -84,6 +85,7 @@ class TransactionsResumePlot(QWidget):
         self.set_ingresos = QBarSet('Ingresos')
         self.set_ingresos.setLabelColor('BLUE')
         self.set_gastos = QBarSet('Gastos')
+        self.set_gastos.setColor('RED')
         self.set_gastos.setLabelColor('RED')
 
         incomes_month_list = []
