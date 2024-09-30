@@ -9,13 +9,13 @@ from Root.main_window.detail_page.transaction_services import TransactionService
 
 
 class IncomesCategoriesPlot(QWidget):
-    def __init__(self):
+    def __init__(self, year):
         super().__init__()
         self.set_ingresos = QBarSet('Ingresos')
         self.setFixedHeight(400)
 
         incomes_list_plot = []
-        incomes_list = TransactionServices().get_incomes(Session.get_current_user_id())
+        incomes_list = TransactionServices().get_all_incomes_dashboard(Session.get_current_user_id(), year)
         for i in incomes_list:
             incomes_list_plot.append(float(i[3]))
 

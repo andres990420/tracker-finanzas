@@ -47,38 +47,43 @@ class DashboardPage(QMainWindow):
 
         self.year_combobox = QComboBox()
         self.year_combobox.addItems(['2024', '2023', '2022'])
+        self.year_combobox.currentTextChanged.connect(lambda: self.update_chart())
         self.filter_layout.addWidget(self.year_combobox)
 
+        self.filter_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        # month_label = QLabel('Month')
-        # self.filter_layout.addWidget(month_label)
-
-        filter_button = QPushButton('FILTRAR')
-        self.filter_layout.addWidget(filter_button)
-        filter_button.clicked.connect(self.update_chart)
-        self.filter_layout.setAlignment(Qt.AlignmentFlag.AlignJustify)
 
         # Creacion grafico de todos los gastos en el anyo
-        self.expensive_resume_plot = ExpensivesResumePlot()
+        self.expensive_resume_plot = ExpensivesResumePlot(self.year_combobox.currentText())
         self.main_layout.addWidget(self.expensive_resume_plot)
 
         # Creacion grafico de todos los gastos con su division por categoria en el anyo
-        self.main_layout.addWidget(ExpensivesCategoriesPlot())
+        self.expensive_categories_plot = ExpensivesCategoriesPlot(self.year_combobox.currentText())
+        self.main_layout.addWidget(self.expensive_categories_plot)
 
         # Creacion grafico all los ingresos en el anyo
-        self.main_layout.addWidget(IncomesResumePlot())
+        self.incomes_resume_plot = IncomesResumePlot(self.year_combobox.currentText())
+        self.main_layout.addWidget(self.incomes_resume_plot)
 
         # Creacion grafico all los ingresos con su categoria en el anyo
-        self.main_layout.addWidget(IncomesCategoriesPlot())
+        # self.main_layout.addWidget(IncomesCategoriesPlot(self.year_combobox.currentText()))
 
         # Cracion grafico ingresos vs gastos en el anyo
-        self.main_layout.addWidget(TransactionsResumePlot())
+        self.all_transactions_plot = TransactionsResumePlot(self.year_combobox.currentText())
+        self.main_layout.addWidget(self.all_transactions_plot)
 
     def update_chart(self):
         self.expensive_resume_plot.update_chart(self.year_combobox.currentText())
-        # self.expensive_resume_plot.update()
-        # self.expensive_resume_plot.repaint()
+        self.expensive_resume_plot.repaint()
 
+        self.expensive_categories_plot.update_chart(self.year_combobox.currentText())
+        self.expensive_categories_plot.repaint()
+
+        self.incomes_resume_plot.update_chart(self.year_combobox.currentText())
+        self.incomes_resume_plot.repaint()
+
+        self.all_transactions_plot.update_chart(self.year_combobox.currentText())
+        self.all_transactions_plot.repaint()
 
 if __name__ == "__main__":
     app = QApplication()

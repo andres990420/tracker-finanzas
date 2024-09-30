@@ -3,7 +3,7 @@ import datetime
 from Root.db_conection.user_dao import UserDao
 from Root.models.users import Users
 from Root.models.transaction import Transaction
-from Root.db_conection.transaction_dao_detail_page import TransactionDao
+from Root.db_conection.transaction_dao import TransactionDao
 from Root.main_window.detail_page.transaction_services import TransactionServices
 from Root.models.categories import Categories
 

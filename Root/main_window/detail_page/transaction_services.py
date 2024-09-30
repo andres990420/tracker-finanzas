@@ -1,6 +1,5 @@
-from Root.db_conection.transaction_dao_detail_page import TransactionDao
+from Root.db_conection.transaction_dao import TransactionDao
 from Root.models.transaction import Transaction
-from Root.db_conection.transaction_dao_dashboard import TransactionDaoDashboard
 import datetime
 
 
@@ -33,14 +32,6 @@ class TransactionServices:
         TransactionDao().delete_transaction(delete_transaction)
 
     @classmethod
-    def get_expensives(cls, user_id):
-        return TransactionDaoDashboard().select_all_expensives_dashboard(user_id)
-
-    @classmethod
-    def get_incomes(cls, user_id, year):
-        return TransactionDaoDashboard().select_all_incomes_dashboard(user_id, year)
-
-    @classmethod
     def get_all_transactions(cls, user_id, year):
         return TransactionDao().select_all_transactions_datetime(user_id, year)
 
@@ -64,11 +55,21 @@ class TransactionServices:
     def get_incomes_categories_detailpage(cls, user_id, year, category):
         return TransactionDao.select_incomes_and_categories_detailpages(user_id, year, category)
 
+    # DASHBOARD METHODS
+
     @classmethod
-    def get_expensives_categories(cls, user_id):
-        return TransactionDao.select_expensives_and_categories(user_id)
+    def get_all_expensives_dashboard(cls, user_id, year):
+        return TransactionDao.select_all_expensives_datetime_dashboard(user_id, year)
+
+    @classmethod
+    def get_all_incomes_dashboard(cls, user_id, year):
+        return TransactionDao.select_all_incomes_dashboard(user_id, year)
+
+    @classmethod
+    def get_expensives_categories_dashboard(cls, user_id, year):
+        return TransactionDao.select_expensives_and_categories_dashboard(user_id, year)
 
 
 if __name__ == "__main__":
 
-    print(TransactionServices().get_expensives('1'))
+    print(TransactionServices().get_all_expensives_dashboard('1'))

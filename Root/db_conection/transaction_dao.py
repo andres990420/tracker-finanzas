@@ -115,22 +115,6 @@ class TransactionDao:
             transaction_date DESC
         '''
 
-
-    _SELECT_EXPENSIVES_AND_CATEGORIES = '''
-            SELECT 
-                SUM(amount), EXTRACT (MONTH FROM(transaction_date)) as "Mes", category_name
-            FROM 
-                transactions
-            INNER JOIN 
-                categories ON transactions.category_id= categories.category_id
-            WHERE 
-                transaction_type = 'gasto' 
-                AND user_id= %s 
-                AND date_part ('year', transaction_date)= '2024'
-            GROUP BY 
-                EXTRACT (MONTH FROM (transaction_date)), category_name
-    '''
-
     _SELECT_BY_TRANSACTION_TYPE = '''
             SELECT 
                 transaction_id,transaction_type, category_name, amount, transaction_date, description
@@ -144,6 +128,49 @@ class TransactionDao:
                 AND date_part ('year', transaction_date)= %s
             ORDER BY
                 transaction_date DESC
+    '''
+
+    # DASHBOARD SENTENCES
+
+    _SELECT_ALL_EXPENSIVES_DATETIME_DASHBOARD = '''
+        SELECT 
+            SUM(amount), EXTRACT (MONTH FROM(transaction_date))
+        FROM 
+            transactions
+        WHERE 
+            transaction_type = 'gasto' 
+            AND user_id= %s 
+            AND date_part ('year', transaction_date)= %s
+        GROUP BY 
+            EXTRACT(MONTH FROM (transaction_date))
+            '''
+
+    _SELECT_EXPENSIVES_AND_CATEGORIES_DASHBOARD = '''
+        SELECT 
+            SUM(amount), EXTRACT (MONTH FROM(transaction_date)) as "Mes", category_name
+        FROM 
+            transactions
+        INNER JOIN 
+            categories ON transactions.category_id= categories.category_id
+        WHERE 
+            transaction_type = 'gasto' 
+            AND user_id= %s 
+            AND date_part ('year', transaction_date)= %s
+        GROUP BY 
+            EXTRACT (MONTH FROM (transaction_date)), category_name
+        '''
+
+    _SELECT_INCOMES_DASHBOARD = '''
+        SELECT 
+            SUM(amount), EXTRACT (MONTH FROM(transaction_date))
+        FROM 
+            transactions
+        WHERE 
+            transaction_type = 'ingreso' 
+            AND user_id= %s 
+            AND date_part ('year', transaction_date)= %s
+        GROUP BY 
+            EXTRACT(MONTH FROM (transaction_date))
     '''
 
     @classmethod
@@ -224,19 +251,38 @@ class TransactionDao:
             return list_incomes_categories
 
     @classmethod
-    def select_expensives_and_categories(cls, user_id):
-        with PoolCursor() as cursor:
-            cursor.execute(cls._SELECT_EXPENSIVES_AND_CATEGORIES, user_id)
-            list_expensive_categories = [item for item in cursor.fetchall()]
-            return list_expensive_categories
-
-    @classmethod
     def select_by_transaction_type(cls, user_id, transaction_type, year):
         with PoolCursor() as cursor:
             cursor.execute(cls._SELECT_BY_TRANSACTION_TYPE, [user_id, transaction_type, year])
             list_transactions = \
                 [(item[0], item[1], item[2], str(item[3]), str(item[4]), item[5]) for item in cursor.fetchall()]
             return list_transactions
+
+    # DASHBOARD METHODS
+
+    @classmethod
+    def select_all_expensives_datetime_dashboard(cls, user_id, year):
+        with PoolCursor() as cursor:
+            cursor.execute(cls._SELECT_ALL_EXPENSIVES_DATETIME_DASHBOARD, [user_id, year])
+            list_expensive_datetime = [list(item) for item in cursor.fetchall()]
+            return list_expensive_datetime
+
+    @classmethod
+    def select_expensives_and_categories_dashboard(cls, user_id, year):
+        with PoolCursor() as cursor:
+            cursor.execute(cls._SELECT_EXPENSIVES_AND_CATEGORIES_DASHBOARD, [user_id, year])
+            list_expensive_categories = [item for item in cursor.fetchall()]
+            return list_expensive_categories
+
+    @classmethod
+    def select_all_incomes_dashboard(cls, user_id, year):
+        with PoolCursor() as cursor:
+            cursor.execute(cls._SELECT_INCOMES_DASHBOARD, [user_id, year])
+            incomes_list = [list(item) for item in cursor.fetchall()]
+            # for item in cursor.fetchall():
+            #     x = (item[0], item[1], item[2], str(item[3]), str(item[4]), item[5])
+            #     incomes_list.append(x)
+            return incomes_list
 
 
 if __name__ == '__main__':

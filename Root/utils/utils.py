@@ -20,12 +20,27 @@ class Utils:
                 categories_list_final.append(i)
         return categories_list_final
 
+    @classmethod
+    def get_max_plot(cls, list1, list2):
+        if max(list1) > max(list2):
+            return max(list1)
+        else:
+            return max(list2)
+
+    @classmethod
+    def join_month_list(cls, list1, list2):
+        list3 = []
+        for item1 in list1:
+            list3.append(item1)
+        for item2 in list2:
+            if item2 not in list3:
+                list3.append(item2)
+        return list3
+
 
 if __name__ == '__main__':
-    test = [['6685.00', '5'], ['1433.00', '7'], ['2873.00', '9'],['1587.00', '10'], ['614.00', '11']]
-    x = []
-    for y in test:
-        x.append(y[1])
+    y = ['1', '2', '3', '5']
+    x = ['1', '3', '6', '7']
 
-    i = [9 , 7, 12, 5, 3, 3]
-    print(Utils().get_months(i))
+    # 1, 2, 3, 5, 6, 7
+    print(Utils().join_month_list(y, x))

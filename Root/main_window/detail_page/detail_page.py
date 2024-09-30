@@ -8,6 +8,7 @@ from Root.main_window.detail_page.delete_transaction_dialog import DeleteTransac
 from Root.main_window.detail_page.transaction_services import TransactionServices
 from Root.models.categories import Categories
 
+
 class DetailPage(QWidget):
     def __init__(self):
         super().__init__()
@@ -27,6 +28,10 @@ class DetailPage(QWidget):
         self.category_filter.setCurrentIndex(-1)
         self.category_filter.currentTextChanged.connect(lambda: self.update_tables())
         self.main_layout.addWidget(self.category_filter)
+
+        clean_filter_button = QPushButton('CLEAN FILTER')
+        clean_filter_button.clicked.connect(lambda: self.clean_filters())
+        self.main_layout.addWidget(clean_filter_button)
 
         self.resume_tables_layout = QHBoxLayout()
         self.main_layout.addLayout(self.resume_tables_layout)
@@ -64,6 +69,9 @@ class DetailPage(QWidget):
         delete_transaction_button = QPushButton('DELETE TRANSACTION')
         delete_transaction_button.clicked.connect(self.delete_transaction)
         self.main_layout.addWidget(delete_transaction_button)
+
+    def clean_filters(self):
+        self.category_filter.setCurrentIndex(-1)
 
     def add_transaction(self):
         AddTransactionDialog(self).exec()

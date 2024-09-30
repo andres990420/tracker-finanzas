@@ -10,16 +10,16 @@ from Root.utils.utils import Utils
 
 class ExpensivesResumePlot(QWidget):
 
-    def __init__(self):
+    def __init__(self, year):
         super().__init__()
         self.setFixedHeight(400)
-        self.year = '2024'
+        self.year = year
 
         self.set_gastos = QBarSet('Gastos')
         self.set_gastos.setLabelColor('BLACK')
 
-        self.expensives_list = TransactionServices().get_all_expensive_datetime_detailpages(Session.get_current_user_id(),
-                                                                                            self.year)
+        self.expensives_list = TransactionServices().get_all_expensives_dashboard(
+            Session.get_current_user_id(), self.year)
         self.expensives_list_plot = []
         self.month_list = []
         for i in self.expensives_list:
@@ -69,13 +69,14 @@ class ExpensivesResumePlot(QWidget):
         self.month_list.clear()
 
         self.year = year
-        self.chart.setTitle('RESUMEN GASTOS ' + self.year)
+
+        self.chart.setTitle(f'RESUMEN GASTOS {self.year}')
 
         self.set_gastos = QBarSet('Gastos')
         self.set_gastos.setLabelColor('BLACK')
 
-        self.expensives_list = TransactionServices().get_all_expensive_datetime_detailpages(Session.get_current_user_id(),
-                                                                                            self.year)
+        self.expensives_list = TransactionServices().get_all_expensives_dashboard(
+            Session.get_current_user_id(), self.year)
         for i in self.expensives_list:
             self.expensives_list_plot.append(int(i[0]))
             self.month_list.append(int(i[1]))
@@ -86,6 +87,8 @@ class ExpensivesResumePlot(QWidget):
         new_category = Utils().get_months(self.month_list)
 
         self.axis_x.append(new_category)
+
+        self.axis_y.setRange(0, max(self.expensives_list_plot) + 1000)
 
         self.series.setLabelsVisible(True)
         self.series.setLabelsPosition(QBarSeries.LabelsPosition.LabelsOutsideEnd)
