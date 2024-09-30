@@ -16,6 +16,7 @@ class ExpensivesResumePlot(QWidget):
         self.year = year
 
         self.set_gastos = QBarSet('Gastos')
+        self.set_gastos.setColor('RED')
         self.set_gastos.setLabelColor('BLACK')
 
         self.expensives_list = TransactionServices().get_all_expensives_dashboard(
@@ -73,6 +74,7 @@ class ExpensivesResumePlot(QWidget):
         self.chart.setTitle(f'RESUMEN GASTOS {self.year}')
 
         self.set_gastos = QBarSet('Gastos')
+        self.set_gastos.setColor('RED')
         self.set_gastos.setLabelColor('BLACK')
 
         self.expensives_list = TransactionServices().get_all_expensives_dashboard(

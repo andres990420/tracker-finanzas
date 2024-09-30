@@ -55,7 +55,6 @@ class ExpensivesCategoriesPlot(QWidget):
                 self.sets[category].setLabelColor('BLACK')
                 self.series.append(self.sets[category])
 
-
         self.chart = QChart()
         self.chart.setTitle(f'Gastos por Categoria {self.year}')
         self.chart.addSeries(self.series)

@@ -173,6 +173,21 @@ class TransactionDao:
             EXTRACT(MONTH FROM (transaction_date))
     '''
 
+    _SELECT_INCOMES_AND_CATEGORIES_DASHBOARD = '''
+            SELECT 
+                SUM(amount), EXTRACT (MONTH FROM(transaction_date)) as "Mes", category_name
+            FROM 
+                transactions
+            INNER JOIN 
+                categories ON transactions.category_id= categories.category_id
+            WHERE 
+                transaction_type = 'ingreso' 
+                AND user_id= %s 
+                AND date_part ('year', transaction_date)= %s
+            GROUP BY 
+                EXTRACT (MONTH FROM (transaction_date)), category_name
+            '''
+
     @classmethod
     def new_transaction(cls, transaction):
         with PoolCursor() as cursor:
@@ -283,6 +298,13 @@ class TransactionDao:
             #     x = (item[0], item[1], item[2], str(item[3]), str(item[4]), item[5])
             #     incomes_list.append(x)
             return incomes_list
+
+    @classmethod
+    def select_incomes_and_categories_dashboard(cls, user_id, year):
+        with PoolCursor() as cursor:
+            cursor.execute(cls._SELECT_INCOMES_AND_CATEGORIES_DASHBOARD, [user_id, year])
+            list_incomes_categories = [item for item in cursor.fetchall()]
+            return list_incomes_categories
 
 
 if __name__ == '__main__':

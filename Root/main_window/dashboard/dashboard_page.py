@@ -66,7 +66,8 @@ class DashboardPage(QMainWindow):
         self.main_layout.addWidget(self.incomes_resume_plot)
 
         # Creacion grafico all los ingresos con su categoria en el anyo
-        # self.main_layout.addWidget(IncomesCategoriesPlot(self.year_combobox.currentText()))
+        self.incomes_categories_plot = IncomesCategoriesPlot(self.year_combobox.currentText())
+        self.main_layout.addWidget(self.incomes_categories_plot)
 
         # Cracion grafico ingresos vs gastos en el anyo
         self.all_transactions_plot = TransactionsResumePlot(self.year_combobox.currentText())
@@ -82,8 +83,12 @@ class DashboardPage(QMainWindow):
         self.incomes_resume_plot.update_chart(self.year_combobox.currentText())
         self.incomes_resume_plot.repaint()
 
+        self.incomes_categories_plot.update_chart(self.year_combobox.currentText())
+        self.incomes_categories_plot.repaint()
+
         self.all_transactions_plot.update_chart(self.year_combobox.currentText())
         self.all_transactions_plot.repaint()
+
 
 if __name__ == "__main__":
     app = QApplication()

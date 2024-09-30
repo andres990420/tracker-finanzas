@@ -69,6 +69,9 @@ class TransactionServices:
     def get_expensives_categories_dashboard(cls, user_id, year):
         return TransactionDao.select_expensives_and_categories_dashboard(user_id, year)
 
+    @classmethod
+    def get_incomes_categories_dashboard(cls, user_id, year):
+        return TransactionDao.select_incomes_and_categories_dashboard(user_id, year)
 
 if __name__ == "__main__":
 
